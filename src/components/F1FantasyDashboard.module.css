@@ -112,6 +112,22 @@
   gap: 1rem;
 }
 
+.utilityLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--panel);
+  box-shadow: var(--card-shadow);
+  color: var(--foreground);
+}
+
+.utilityLink:hover {
+  background: var(--button-active);
+}
+
 .utilityGroup {
   gap: 0.8rem;
   padding: 0.5rem 0.6rem;
@@ -216,10 +232,9 @@
 }
 
 .hero {
-  display: grid;
-  grid-template-columns: 1.8fr 1fr;
-  gap: 1.5rem;
-  padding: 2rem;
+  display: flex;
+  align-items: center;
+  padding: 1.35rem 1.6rem;
   border: 1px solid var(--border);
   border-radius: 28px;
   background: var(--hero-surface);
@@ -227,18 +242,17 @@
 }
 
 .heroCopy {
-  gap: 1rem;
+  gap: 0.55rem;
 }
 
 .heroCopy h1 {
-  max-width: 12ch;
-  font-size: clamp(2.7rem, 5vw, 4.7rem);
-  line-height: 0.95;
+  max-width: none;
+  font-size: clamp(2rem, 3.8vw, 3.1rem);
+  line-height: 1;
   letter-spacing: -0.04em;
 }
 
 .heroCopy p,
-.heroMeta p,
 .sectionHeader p,
 .summaryCard p,
 .chartCard p,
@@ -247,19 +261,6 @@
 .stateCard p,
 .table td span {
   color: var(--muted);
-}
-
-.heroMeta {
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.25rem;
-  border-radius: 20px;
-  background: var(--hero-meta);
-  border: 1px solid var(--border);
-}
-
-.heroMeta code {
-  color: var(--foreground);
 }
 
 .domainPill,
@@ -449,11 +450,6 @@
 .table td {
   padding: 0.95rem 0;
   vertical-align: top;
-}
-
-.table td strong {
-  display: block;
-  margin-bottom: 0.3rem;
 }
 
 .detailPanel {

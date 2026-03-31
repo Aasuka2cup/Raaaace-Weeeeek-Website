@@ -81,6 +81,18 @@ function getTeamDetailName(team: TeamEntry): string {
   return team.detailTeamName ?? team.teamName;
 }
 
+function getTeamNumber(team: TeamEntry): string {
+  const candidates = [team.detailTeamName, team.teamName];
+
+  for (const candidate of candidates) {
+    if (candidate && /^T\d+$/i.test(candidate.trim())) {
+      return candidate.trim().toUpperCase();
+    }
+  }
+
+  return "";
+}
+
 function getTopOwned(entries: OwnershipEntry[]): OwnershipEntry | null {
   return entries[0] ?? null;
 }
@@ -610,6 +622,14 @@ export function F1FantasyDashboard() {
           <span />
         </button>
         <div className={styles.mobileUtilityPills}>
+          <a
+            className={styles.utilityLink}
+            href="https://github.com/Aasuka2cup/Raaaace-Weeeeek"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {messages.githubLabel}
+          </a>
           <button
             type="button"
             className={styles.utilityButton}
@@ -648,6 +668,15 @@ export function F1FantasyDashboard() {
 
       <main className={styles.page}>
         <div className={styles.utilityBar}>
+          <a
+            className={styles.utilityLink}
+            href="https://github.com/Aasuka2cup/Raaaace-Weeeeek"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {messages.githubLabel}
+          </a>
+
           <div className={styles.utilityGroup}>
             <span className={styles.utilityLabel}>{messages.themeLabel}</span>
             <div className={styles.segmentedControl}>
@@ -699,20 +728,8 @@ export function F1FantasyDashboard() {
 
         <section id={SECTION_IDS.intro} className={styles.hero}>
           <div className={styles.heroCopy}>
-            <span className={styles.eyebrow}>{messages.siteTitleEyebrow}</span>
             <h1>{messages.siteTitle}</h1>
             <p>{messages.siteDescription}</p>
-          </div>
-          <div className={styles.heroMeta}>
-            <span className={styles.domainPill}>{messages.domainPill}</span>
-            <p>
-              {messages.heroMeta.split("/data/league-data").map((part, index, parts) => (
-                <span key={`${part}-${index}`}>
-                  {part}
-                  {index < parts.length - 1 && <code>/data/league-data</code>}
-                </span>
-              ))}
-            </p>
           </div>
         </section>
 
@@ -862,8 +879,7 @@ export function F1FantasyDashboard() {
                           <th>{messages.standingsTableTeam}</th>
                           <th>{messages.standingsTableManager}</th>
                           <th>{messages.standingsTablePoints}</th>
-                          <th>{messages.standingsTableConstructors}</th>
-                          <th>{messages.standingsTableStrategy}</th>
+                          <th>{messages.standingsTableTeamNo}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -876,14 +892,10 @@ export function F1FantasyDashboard() {
                             onClick={() => setSelectedTeamName(team.teamName)}
                           >
                             <td>#{team.rank}</td>
-                            <td>
-                              <strong>{team.teamName}</strong>
-                              <span>{team.lineup.drivers.slice(0, 2).join(", ")}</span>
-                            </td>
+                            <td>{team.teamName}</td>
                             <td>{team.manager}</td>
                             <td>{formatCount(team.totalPoints)}</td>
-                            <td>{team.lineup.constructors.join(" / ")}</td>
-                            <td>{getChipLabel(team, messages)}</td>
+                            <td>{getTeamNumber(team)}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -921,7 +933,9 @@ export function F1FantasyDashboard() {
                               {selectedTeam.drivers.map((driver) => (
                                 <li key={driver.name}>
                                   <span>{driver.name}</span>
-                                  <span>{driver.turbo ? messages.turboShort : "--"}</span>
+                                  {driver.turbo ? (
+                                    <span>{messages.turboShort}</span>
+                                  ) : null}
                                 </li>
                               ))}
                             </ul>
@@ -932,7 +946,10 @@ export function F1FantasyDashboard() {
                               {selectedTeam.constructors.map((constructorEntry) => (
                                 <li key={constructorEntry.name}>
                                   <span>{constructorEntry.name}</span>
-                                  <span>{formatCount(constructorEntry.points)}</span>
+                                  {constructorEntry.points !== null &&
+                                  constructorEntry.points !== undefined ? (
+                                    <span>{formatCount(constructorEntry.points)}</span>
+                                  ) : null}
                                 </li>
                               ))}
                             </ul>

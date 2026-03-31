@@ -22,6 +22,7 @@ type DynamicString = (value?: string | number) => string;
 export interface DashboardMessages {
   localeLabel: string;
   themeLabel: string;
+  githubLabel: string;
   navLabel: string;
   mobileNavOpen: string;
   mobileNavClose: string;
@@ -69,6 +70,7 @@ export interface DashboardMessages {
   standingsTableTeam: string;
   standingsTableManager: string;
   standingsTablePoints: string;
+  standingsTableTeamNo: string;
   standingsTableConstructors: string;
   standingsTableStrategy: string;
   teamDetailsTitle: string;
@@ -135,6 +137,7 @@ export const DASHBOARD_MESSAGES: Record<Locale, DashboardMessages> = {
   en: {
     localeLabel: "Language",
     themeLabel: "Theme",
+    githubLabel: "GitHub",
     navLabel: "Section navigation",
     mobileNavOpen: "Open navigation",
     mobileNavClose: "Close navigation",
@@ -143,9 +146,8 @@ export const DASHBOARD_MESSAGES: Record<Locale, DashboardMessages> = {
     langEnglish: "EN",
     langChinese: "中文",
     siteTitleEyebrow: "F1 Fantasy League Analysis",
-    siteTitle: "League picks, ownership trends, and prediction signals in one dashboard.",
-    siteDescription:
-      "This site turns exported strategist snapshots into a presentation layer for league standings, lineup behavior, and the prediction patterns that matter before the next race.",
+    siteTitle: "F1 Fantasy League Raaaace Weeeeek Dashboard",
+    siteDescription: "Picks, Trends, & Prediction",
     domainPill: "Live on f1fantasy.aasuka.com",
     heroMeta:
       "Data is served from the static package under /data/league-data, so the site stays lightweight and deployment-friendly.",
@@ -186,6 +188,7 @@ export const DASHBOARD_MESSAGES: Record<Locale, DashboardMessages> = {
     standingsTableTeam: "Team",
     standingsTableManager: "Manager",
     standingsTablePoints: "Points",
+    standingsTableTeamNo: "TeamNo",
     standingsTableConstructors: "Constructors",
     standingsTableStrategy: "Chip / strategy",
     teamDetailsTitle: "Team details",
@@ -255,6 +258,7 @@ export const DASHBOARD_MESSAGES: Record<Locale, DashboardMessages> = {
   zh: {
     localeLabel: "语言",
     themeLabel: "主题",
+    githubLabel: "GitHub",
     navLabel: "页面导航",
     mobileNavOpen: "打开导航",
     mobileNavClose: "关闭导航",
@@ -263,9 +267,8 @@ export const DASHBOARD_MESSAGES: Record<Locale, DashboardMessages> = {
     langEnglish: "EN",
     langChinese: "中文",
     siteTitleEyebrow: "F1 Fantasy 联盟分析",
-    siteTitle: "在一个仪表盘中查看联盟选人、持有率趋势和预测信号。",
-    siteDescription:
-      "这个网站把 strategist 导出的快照整理成展示层，让你更容易查看联盟排名、阵容变化，以及赛前最值得关注的预测模式。",
+    siteTitle: "F1 Fantasy League Raaaace Weeeeek Dashboard",
+    siteDescription: "Picks, Trends, & Prediction",
     domainPill: "部署地址 f1fantasy.aasuka.com",
     heroMeta:
       "数据通过 /data/league-data 下的静态包提供，因此网站保持轻量，也方便持续部署。",
@@ -306,6 +309,7 @@ export const DASHBOARD_MESSAGES: Record<Locale, DashboardMessages> = {
     standingsTableTeam: "队伍",
     standingsTableManager: "经理",
     standingsTablePoints: "积分",
+    standingsTableTeamNo: "队号",
     standingsTableConstructors: "车队",
     standingsTableStrategy: "Chip / 策略",
     teamDetailsTitle: "队伍详情",
