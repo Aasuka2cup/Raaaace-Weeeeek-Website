@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 
 import {
   formatViewLabel,
-  getTopPredictionHighlight,
   getUniqueManagers,
   loadLeagueInsights,
   loadLeagueManifest,
@@ -12,6 +11,14 @@ import {
   resolveLeague,
   resolveView,
 } from "@/lib/league-data";
+import {
+  DASHBOARD_MESSAGES,
+  SECTION_IDS,
+  STORAGE_KEYS,
+  type Locale,
+  type SectionId,
+  type Theme,
+} from "@/lib/messages";
 import type {
   ExportedLeague,
   LeagueInsightsData,
@@ -27,6 +34,7 @@ import type {
 import styles from "./F1FantasyDashboard.module.css";
 
 type SortKey = "rank" | "points" | "manager";
+type Messages = (typeof DASHBOARD_MESSAGES)["en"];
 
 function formatPercent(value: number | undefined): string {
   if (value === undefined || Number.isNaN(value)) {
@@ -36,12 +44,12 @@ function formatPercent(value: number | undefined): string {
   return `${value.toFixed(1)}%`;
 }
 
-function formatDateTime(value: string | undefined): string {
+function formatDateTime(value: string | undefined, locale: Locale): string {
   if (!value) {
-    return "Unknown";
+    return locale === "zh" ? "未知" : "Unknown";
   }
 
-  return new Intl.DateTimeFormat("en", {
+  return new Intl.DateTimeFormat(locale === "zh" ? "zh-CN" : "en", {
     month: "short",
     day: "numeric",
     hour: "numeric",
@@ -57,16 +65,16 @@ function formatCount(value: number | null | undefined): string {
   return value.toLocaleString();
 }
 
-function getChipLabel(team: TeamEntry): string {
+function getChipLabel(team: TeamEntry, messages: Messages): string {
   if (team.chips.used.length > 0) {
     return team.chips.used.join(", ");
   }
 
   if (team.turboDriver) {
-    return `Turbo: ${team.turboDriver}`;
+    return `${messages.turboPrefix}: ${team.turboDriver}`;
   }
 
-  return "No chip used";
+  return messages.noChipUsed;
 }
 
 function getTeamDetailName(team: TeamEntry): string {
@@ -75,6 +83,14 @@ function getTeamDetailName(team: TeamEntry): string {
 
 function getTopOwned(entries: OwnershipEntry[]): OwnershipEntry | null {
   return entries[0] ?? null;
+}
+
+function getLocalizedViewLabel(viewKey: string, viewLabel: string, locale: Locale): string {
+  if (viewKey === "overall") {
+    return locale === "zh" ? "总榜" : "Overall";
+  }
+
+  return viewLabel;
 }
 
 function sortTeams(teams: TeamEntry[], sortKey: SortKey): TeamEntry[] {
@@ -113,6 +129,40 @@ function getPredictionTone(momentumScore: number | undefined): "good" | "bad" | 
 
 function getInitialTeam(viewData: LeagueViewData | null): TeamEntry | null {
   return viewData?.teams[0] ?? null;
+}
+
+function getStoredPreference<T extends string>(
+  key: string,
+  allowedValues: readonly T[],
+  fallback: T,
+): T {
+  if (typeof window === "undefined") {
+    return fallback;
+  }
+
+  const stored = window.localStorage.getItem(key);
+  return stored && allowedValues.includes(stored as T) ? (stored as T) : fallback;
+}
+
+function getPredictionHighlight(
+  insightsData: LeagueInsightsData | null,
+  messages: Messages,
+): string {
+  const topMomentum = insightsData?.predictions.pickMomentum[0];
+
+  if (!topMomentum) {
+    return messages.predictionHighlightFallback;
+  }
+
+  return messages.predictionSignal(topMomentum.name);
+}
+
+function localizePredictionType(locale: Locale, type: PredictionEntry["type"]): string {
+  if (locale === "zh") {
+    return type === "driver" ? "车手" : "车队";
+  }
+
+  return type;
 }
 
 function SectionHeader({
@@ -185,7 +235,15 @@ function StatBarList({
   );
 }
 
-function PairList({ title, items }: { title: string; items: PairEntry[] }) {
+function PairList({
+  title,
+  items,
+  messages,
+}: {
+  title: string;
+  items: PairEntry[];
+  messages: Messages;
+}) {
   return (
     <article className={styles.subSectionCard}>
       <h3>{title}</h3>
@@ -196,7 +254,7 @@ function PairList({ title, items }: { title: string; items: PairEntry[] }) {
               <strong>{item.names.join(" + ")}</strong>
               <span>{formatPercent(item.percentage)}</span>
             </div>
-            <p>{item.count} teams share this combination.</p>
+            <p>{messages.teamsShareCombination(item.count)}</p>
           </li>
         ))}
       </ul>
@@ -208,10 +266,12 @@ function InsightTeamList({
   title,
   items,
   emphasis,
+  messages,
 }: {
   title: string;
   items: TeamInsightEntry[];
   emphasis: "unique" | "template";
+  messages: Messages;
 }) {
   return (
     <article className={styles.subSectionCard}>
@@ -227,8 +287,14 @@ function InsightTeamList({
             </div>
             <p>
               {emphasis === "unique"
-                ? `${team.uniquePickCount ?? 0} unique picks, average ownership ${formatPercent(team.averagePickOwnership)}.`
-                : `${formatPercent(team.averagePickOwnership)} average ownership with ${team.totalPoints} points.`}
+                ? messages.uniqueTeamDetail(
+                    team.uniquePickCount ?? 0,
+                    formatPercent(team.averagePickOwnership),
+                  )
+                : messages.templateTeamDetail(
+                    formatPercent(team.averagePickOwnership),
+                    team.totalPoints,
+                  )}
             </p>
           </li>
         ))}
@@ -240,9 +306,13 @@ function InsightTeamList({
 function PredictionList({
   title,
   items,
+  locale,
+  messages,
 }: {
   title: string;
   items: PredictionEntry[];
+  locale: Locale;
+  messages: Messages;
 }) {
   return (
     <article className={styles.subSectionCard}>
@@ -252,17 +322,16 @@ function PredictionList({
           <li key={`${title}-${item.type}-${item.name}`}>
             <div>
               <strong>{item.name}</strong>
-              <span className={styles.badge}>{item.type}</span>
+              <span className={styles.badge}>{localizePredictionType(locale, item.type)}</span>
             </div>
             <p>
-              League ownership {formatPercent(item.overallPercentage)}
-              {item.topTeamPercentage !== undefined
-                ? `, top-team ownership ${formatPercent(item.topTeamPercentage)}`
-                : ""}
-              {item.momentumScore !== undefined
-                ? `, momentum ${item.momentumScore.toFixed(1)}`
-                : ""}
-              .
+              {messages.predictionItemDetail(
+                formatPercent(item.overallPercentage),
+                item.topTeamPercentage !== undefined
+                  ? formatPercent(item.topTeamPercentage)
+                  : null,
+                item.momentumScore !== undefined ? item.momentumScore.toFixed(1) : null,
+              )}
             </p>
           </li>
         ))}
@@ -271,80 +340,15 @@ function PredictionList({
   );
 }
 
-function TeamDetailPanel({ team }: { team: TeamEntry | null }) {
-  if (!team) {
-    return (
-      <aside className={styles.detailPanel}>
-        <h3>Team details</h3>
-        <p>Select a team to inspect its lineup, chip usage, and transfer state.</p>
-      </aside>
-    );
-  }
-
-  return (
-    <aside className={styles.detailPanel}>
-      <div className={styles.detailHeader}>
-        <div>
-          <span className={styles.badge}>Selected team</span>
-          <h3>{getTeamDetailName(team)}</h3>
-          <p>{team.manager}</p>
-        </div>
-        <div className={styles.detailRank}>
-          <strong>#{team.rank}</strong>
-          <span>{formatCount(team.totalPoints)} pts</span>
-        </div>
-      </div>
-
-      <div className={styles.detailGrid}>
-        <div>
-          <h4>Drivers</h4>
-          <ul className={styles.detailList}>
-            {team.drivers.map((driver) => (
-              <li key={driver.name}>
-                <span>{driver.name}</span>
-                <span>{driver.turbo ? "Turbo" : "--"}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h4>Constructors</h4>
-          <ul className={styles.detailList}>
-            {team.constructors.map((constructorEntry) => (
-              <li key={constructorEntry.name}>
-                <span>{constructorEntry.name}</span>
-                <span>{formatCount(constructorEntry.points)}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <div className={styles.detailStats}>
-        <div>
-          <span>Chip usage</span>
-          <strong>{getChipLabel(team)}</strong>
-        </div>
-        <div>
-          <span>Transfer state</span>
-          <strong>
-            {formatCount(team.transfer.made)} made / {formatCount(team.transfer.allowed)} allowed
-          </strong>
-        </div>
-        <div>
-          <span>Penalty points</span>
-          <strong>{formatCount(team.transfer.penaltyPoints)}</strong>
-        </div>
-        <div>
-          <span>Cost cap</span>
-          <strong>{team.costCap ?? "--"}</strong>
-        </div>
-      </div>
-    </aside>
-  );
-}
-
 export function F1FantasyDashboard() {
+  const [theme, setTheme] = useState<Theme>(() =>
+    getStoredPreference(STORAGE_KEYS.theme, ["dark", "light"] as const, "dark"),
+  );
+  const [locale, setLocale] = useState<Locale>(() =>
+    getStoredPreference(STORAGE_KEYS.locale, ["en", "zh"] as const, "en"),
+  );
+  const [activeSection, setActiveSection] = useState<SectionId>(SECTION_IDS.intro);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [manifest, setManifest] = useState<LeagueManifest | null>(null);
   const [viewData, setViewData] = useState<LeagueViewData | null>(null);
   const [insightsData, setInsightsData] = useState<LeagueInsightsData | null>(null);
@@ -356,6 +360,51 @@ export function F1FantasyDashboard() {
   const [sortKey, setSortKey] = useState<SortKey>("rank");
   const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const [error, setError] = useState<string>("");
+
+  const messages = DASHBOARD_MESSAGES[locale];
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem(STORAGE_KEYS.theme, theme);
+  }, [theme]);
+
+  useEffect(() => {
+    document.documentElement.lang = locale === "zh" ? "zh-CN" : "en";
+    window.localStorage.setItem(STORAGE_KEYS.locale, locale);
+  }, [locale]);
+
+  useEffect(() => {
+    const sectionIds = Object.values(SECTION_IDS);
+    const elements = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((element): element is HTMLElement => element !== null);
+
+    if (elements.length === 0) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const nextActive = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((left, right) => right.intersectionRatio - left.intersectionRatio)[0];
+
+        if (nextActive?.target.id) {
+          setActiveSection(nextActive.target.id as SectionId);
+        }
+      },
+      {
+        rootMargin: "-18% 0px -58% 0px",
+        threshold: [0.2, 0.4, 0.7],
+      },
+    );
+
+    elements.forEach((element) => observer.observe(element));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     let isCancelled = false;
@@ -504,351 +553,592 @@ export function F1FantasyDashboard() {
   const topOwnedDriver = getTopOwned(insightsData?.ownership.drivers ?? []);
   const topOwnedConstructor = getTopOwned(insightsData?.ownership.constructors ?? []);
   const topMomentum = insightsData?.predictions.pickMomentum[0];
+  const predictionHighlight = getPredictionHighlight(insightsData, messages);
+
+  const navItems = [
+    { id: SECTION_IDS.intro, label: messages.navIntro },
+    { id: SECTION_IDS.controls, label: messages.navControls },
+    { id: SECTION_IDS.summary, label: messages.navSummary },
+    { id: SECTION_IDS.standings, label: messages.navStandings },
+    { id: SECTION_IDS.distribution, label: messages.navDistribution },
+    { id: SECTION_IDS.predictions, label: messages.navPredictions },
+  ];
+
+  const renderSidebar = (isMobile = false) => (
+    <nav
+      className={isMobile ? styles.mobileSidebar : styles.sidebar}
+      aria-label={messages.navLabel}
+    >
+      <div className={styles.sidebarTop}>
+        <span className={styles.sidebarEyebrow}>{messages.navLabel}</span>
+        <strong>F1 Fantasy</strong>
+      </div>
+      <div className={styles.navList}>
+        {navItems.map((item) => (
+          <a
+            key={item.id}
+            href={`#${item.id}`}
+            className={`${styles.navLink} ${
+              activeSection === item.id ? styles.navLinkActive : ""
+            }`}
+            onClick={() => setIsMobileNavOpen(false)}
+          >
+            <span className={styles.navDot} />
+            {item.label}
+          </a>
+        ))}
+      </div>
+      <div className={styles.sidebarFooter}>
+        <span>{messages.domainPill}</span>
+      </div>
+    </nav>
+  );
 
   return (
-    <main className={styles.page}>
-      <section className={styles.hero}>
-        <div className={styles.heroCopy}>
-          <span className={styles.eyebrow}>F1 Fantasy League Analysis</span>
-          <h1>League picks, ownership trends, and prediction signals in one dashboard.</h1>
-          <p>
-            This site turns exported strategist snapshots into a presentation layer for
-            league standings, lineup behavior, and the prediction patterns that matter
-            before the next race.
-          </p>
+    <div className={styles.shell}>
+      {renderSidebar()}
+
+      <div className={styles.mobileToolbar}>
+        <button
+          type="button"
+          className={styles.mobileMenuButton}
+          onClick={() => setIsMobileNavOpen(true)}
+          aria-label={messages.mobileNavOpen}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <div className={styles.mobileUtilityPills}>
+          <button
+            type="button"
+            className={styles.utilityButton}
+            onClick={() => setTheme((current) => (current === "dark" ? "light" : "dark"))}
+          >
+            {theme === "dark" ? messages.themeLight : messages.themeDark}
+          </button>
+          <button
+            type="button"
+            className={styles.utilityButton}
+            onClick={() => setLocale((current) => (current === "en" ? "zh" : "en"))}
+          >
+            {locale === "en" ? messages.langChinese : messages.langEnglish}
+          </button>
         </div>
-        <div className={styles.heroMeta}>
-          <span className={styles.domainPill}>Planned home: f1fantasy.aasuka.com</span>
-          <p>
-            Data is served from the static package under <code>/data/league-data</code>,
-            so the site stays lightweight and deployment-friendly.
-          </p>
-        </div>
-      </section>
+      </div>
 
-      <section className={styles.controlsCard}>
-        <div className={styles.controlsHeader}>
-          <SectionHeader
-            eyebrow="Navigation"
-            title="League and snapshot selection"
-            description="The dashboard is driven by the exported manifest, so each view reflects a real strategist snapshot."
-          />
-        </div>
-
-        <div className={styles.controlsGrid}>
-          <label className={styles.field}>
-            <span>League</span>
-            <select
-              value={selectedLeagueId}
-              onChange={(event) => {
-                const nextLeagueId = event.target.value;
-                const nextLeague = manifest?.leagues.find(
-                  (league) => league.leagueId === nextLeagueId,
-                );
-
-                setSelectedLeagueId(nextLeagueId);
-                setSelectedViewKey(nextLeague?.latestViewKey ?? "");
-              }}
-              disabled={!manifest || manifest.leagues.length === 0}
-            >
-              {manifest?.leagues.map((league) => (
-                <option key={league.leagueId} value={league.leagueId}>
-                  League {league.leagueId}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className={styles.field}>
-            <span>Snapshot</span>
-            <select
-              value={selectedView?.key ?? ""}
-              onChange={(event) => setSelectedViewKey(event.target.value)}
-              disabled={!selectedLeague}
-            >
-              {selectedLeague?.views.map((view) => (
-                <option key={view.key} value={view.key}>
-                  {formatViewLabel(view)}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className={styles.field}>
-            <span>Search teams</span>
-            <input
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-              placeholder="Team name or manager"
-            />
-          </label>
-
-          <label className={styles.field}>
-            <span>Manager</span>
-            <select
-              value={selectedManager}
-              onChange={(event) => setSelectedManager(event.target.value)}
-              disabled={!viewData}
-            >
-              <option value="all">All managers</option>
-              {managers.map((manager) => (
-                <option key={manager} value={manager}>
-                  {manager}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className={styles.field}>
-            <span>Sort standings</span>
-            <select
-              value={sortKey}
-              onChange={(event) => setSortKey(event.target.value as SortKey)}
-            >
-              <option value="rank">By rank</option>
-              <option value="points">By points</option>
-              <option value="manager">By manager</option>
-            </select>
-          </label>
-        </div>
-      </section>
-
-      {status === "loading" && (
-        <section className={styles.stateCard}>
-          <p>Loading the latest league package...</p>
-        </section>
-      )}
-
-      {status === "error" && (
-        <section className={styles.stateCard}>
-          <h2>Data load issue</h2>
-          <p>{error}</p>
-        </section>
-      )}
-
-      {status === "ready" && viewData && selectedLeague && selectedView && (
-        <>
-          <section className={styles.summaryGrid}>
-            <SummaryCard
-              label="League"
-              value={`#${selectedLeague.leagueId}`}
-              detail={selectedLeague.latestViewLabel}
-            />
-            <SummaryCard
-              label="Snapshot"
-              value={selectedView.label}
-              detail={`Updated ${formatDateTime(selectedView.scrapedAt)}`}
-            />
-            <SummaryCard
-              label="Teams tracked"
-              value={String(viewData.teams.length)}
-              detail={`${filteredTeams.length} shown after filters`}
-            />
-            <SummaryCard
-              label="Prediction signal"
-              value={topMomentum?.name ?? "Waiting"}
-              detail={getTopPredictionHighlight(insightsData)}
-            />
-          </section>
-
-          <section className={styles.section}>
-            <SectionHeader
-              eyebrow="All Team Picks"
-              title="Standings and roster view"
-              description="Use the filters to compare managers, inspect lineups, and see how chip usage and transfers map to league rank."
-            />
-
-            <div className={styles.standingsLayout}>
-              <div className={styles.tableCard}>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>Rank</th>
-                      <th>Team</th>
-                      <th>Manager</th>
-                      <th>Points</th>
-                      <th>Constructors</th>
-                      <th>Chip / strategy</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredTeams.map((team) => (
-                      <tr
-                        key={`${team.rank}-${team.teamName}`}
-                        className={
-                          selectedTeam?.teamName === team.teamName ? styles.activeRow : ""
-                        }
-                        onClick={() => setSelectedTeamName(team.teamName)}
-                      >
-                        <td>#{team.rank}</td>
-                        <td>
-                          <strong>{team.teamName}</strong>
-                          <span>{team.lineup.drivers.slice(0, 2).join(", ")}</span>
-                        </td>
-                        <td>{team.manager}</td>
-                        <td>{formatCount(team.totalPoints)}</td>
-                        <td>{team.lineup.constructors.join(" / ")}</td>
-                        <td>{getChipLabel(team)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <TeamDetailPanel team={selectedTeam ?? null} />
-            </div>
-          </section>
-
-          <section className={styles.section}>
-            <SectionHeader
-              eyebrow="Pick Distribution"
-              title="Ownership, template patterns, and recurring combinations"
-              description="These sections use the exported insights file to surface the most common choices, pairings, and template structure."
-            />
-
-            <div className={styles.summaryGrid}>
-              <SummaryCard
-                label="Most owned driver"
-                value={topOwnedDriver?.name ?? "--"}
-                detail={
-                  topOwnedDriver
-                    ? `${formatPercent(topOwnedDriver.percentage)} ownership`
-                    : "No ownership data"
-                }
-              />
-              <SummaryCard
-                label="Most owned constructor"
-                value={topOwnedConstructor?.name ?? "--"}
-                detail={
-                  topOwnedConstructor
-                    ? `${formatPercent(topOwnedConstructor.percentage)} ownership`
-                    : "No ownership data"
-                }
-              />
-              <SummaryCard
-                label="Template drivers"
-                value={insightsData?.groups.template.drivers.length.toString() ?? "0"}
-                detail={insightsData?.groups.template.drivers.join(", ") ?? "No template data"}
-              />
-              <SummaryCard
-                label="Duplicate lineups"
-                value={String(insightsData?.groups.duplicateLineups.length ?? 0)}
-                detail="Useful for spotting how concentrated the field really is."
-              />
-            </div>
-
-            <div className={styles.chartsGrid}>
-              <StatBarList
-                title="Top driver ownership"
-                items={insightsData?.ownership.drivers.slice(0, 8) ?? []}
-                valueLabel={(entry) => `${formatPercent(entry.percentage)} · ${entry.count} teams`}
-              />
-              <StatBarList
-                title="Top constructor ownership"
-                items={insightsData?.ownership.constructors.slice(0, 8) ?? []}
-                valueLabel={(entry) => `${formatPercent(entry.percentage)} · ${entry.count} teams`}
-              />
-              <StatBarList
-                title="Chip usage"
-                items={insightsData?.ownership.chips ?? []}
-                valueLabel={(entry) => `${formatPercent(entry.percentage)} · ${entry.count} uses`}
-              />
-            </div>
-
-            <div className={styles.twoColumnGrid}>
-              <PairList
-                title="Most common driver pairs"
-                items={insightsData?.groups.mostCommonDriverPairs.slice(0, 5) ?? []}
-              />
-              <PairList
-                title="Most common constructor pairs"
-                items={insightsData?.groups.mostCommonConstructorPairs.slice(0, 5) ?? []}
-              />
-            </div>
-          </section>
-
-          <section className={styles.section}>
-            <SectionHeader
-              eyebrow="Predictions & Insights"
-              title="Momentum signals and team-level interpretation"
-              description="The prediction layer stays heuristic by design, giving you a league-relative read on underowned plays, overexposed picks, and leader overlap."
-            />
-
-            <div className={styles.predictionHero}>
-              <div>
-                <span className={styles.eyebrow}>Current highlight</span>
-                <h3>{getTopPredictionHighlight(insightsData)}</h3>
-                <p>
-                  Based on a top-team sample of {insightsData?.predictions.topTeamSampleSize ?? 0},
-                  this highlights which picks are over-performing relative to overall league ownership.
-                </p>
-              </div>
-              <div
-                className={`${styles.toneBadge} ${
-                  styles[getPredictionTone(topMomentum?.momentumScore)]
-                }`}
+      {isMobileNavOpen && (
+        <div className={styles.mobileDrawerOverlay} onClick={() => setIsMobileNavOpen(false)}>
+          <div className={styles.mobileDrawer} onClick={(event) => event.stopPropagation()}>
+            <div className={styles.mobileDrawerHeader}>
+              <strong>{messages.navLabel}</strong>
+              <button
+                type="button"
+                className={styles.closeButton}
+                onClick={() => setIsMobileNavOpen(false)}
+                aria-label={messages.mobileNavClose}
               >
-                {topMomentum?.momentumScore?.toFixed(1) ?? "--"} momentum
-              </div>
+                ×
+              </button>
             </div>
-
-            <div className={styles.twoColumnGrid}>
-              <InsightTeamList
-                title="Most unique teams"
-                items={insightsData?.teamInsights.mostUniqueTeams.slice(0, 5) ?? []}
-                emphasis="unique"
-              />
-              <InsightTeamList
-                title="Most template teams"
-                items={insightsData?.teamInsights.mostTemplateTeams.slice(0, 5) ?? []}
-                emphasis="template"
-              />
-            </div>
-
-            <div className={styles.threeColumnGrid}>
-              <PredictionList
-                title="Momentum picks"
-                items={insightsData?.predictions.pickMomentum.slice(0, 6) ?? []}
-              />
-              <PredictionList
-                title="Underowned top-team picks"
-                items={insightsData?.predictions.underownedTopPicks.slice(0, 6) ?? []}
-              />
-              <PredictionList
-                title="Overexposed picks"
-                items={insightsData?.predictions.overexposedPicks.slice(0, 6) ?? []}
-              />
-            </div>
-
-            <div className={styles.twoColumnGrid}>
-              <PredictionList
-                title="Leader differentials"
-                items={insightsData?.predictions.leaderDifferentials.slice(0, 6) ?? []}
-              />
-              <article className={styles.subSectionCard}>
-                <h3>Leader overlap</h3>
-                <ul className={styles.simpleList}>
-                  {insightsData?.teamInsights.leaderOverlap.slice(0, 6).map((team) => (
-                    <li key={`${team.rank}-${team.teamName}`}>
-                      <div>
-                        <strong>
-                          #{team.rank} {team.teamName}
-                        </strong>
-                        <span>{formatPercent(team.overlapPercentage)}</span>
-                      </div>
-                      <p>
-                        {team.overlapCount} shared picks with the leader across{" "}
-                        {team.matchingDrivers.length} drivers and{" "}
-                        {team.matchingConstructors.length} constructors.
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            </div>
-          </section>
-        </>
+            {renderSidebar(true)}
+          </div>
+        </div>
       )}
-    </main>
+
+      <main className={styles.page}>
+        <div className={styles.utilityBar}>
+          <div className={styles.utilityGroup}>
+            <span className={styles.utilityLabel}>{messages.themeLabel}</span>
+            <div className={styles.segmentedControl}>
+              <button
+                type="button"
+                className={`${styles.segmentButton} ${
+                  theme === "dark" ? styles.segmentButtonActive : ""
+                }`}
+                onClick={() => setTheme("dark")}
+              >
+                {messages.themeDark}
+              </button>
+              <button
+                type="button"
+                className={`${styles.segmentButton} ${
+                  theme === "light" ? styles.segmentButtonActive : ""
+                }`}
+                onClick={() => setTheme("light")}
+              >
+                {messages.themeLight}
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.utilityGroup}>
+            <span className={styles.utilityLabel}>{messages.localeLabel}</span>
+            <div className={styles.segmentedControl}>
+              <button
+                type="button"
+                className={`${styles.segmentButton} ${
+                  locale === "en" ? styles.segmentButtonActive : ""
+                }`}
+                onClick={() => setLocale("en")}
+              >
+                {messages.langEnglish}
+              </button>
+              <button
+                type="button"
+                className={`${styles.segmentButton} ${
+                  locale === "zh" ? styles.segmentButtonActive : ""
+                }`}
+                onClick={() => setLocale("zh")}
+              >
+                {messages.langChinese}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <section id={SECTION_IDS.intro} className={styles.hero}>
+          <div className={styles.heroCopy}>
+            <span className={styles.eyebrow}>{messages.siteTitleEyebrow}</span>
+            <h1>{messages.siteTitle}</h1>
+            <p>{messages.siteDescription}</p>
+          </div>
+          <div className={styles.heroMeta}>
+            <span className={styles.domainPill}>{messages.domainPill}</span>
+            <p>
+              {messages.heroMeta.split("/data/league-data").map((part, index, parts) => (
+                <span key={`${part}-${index}`}>
+                  {part}
+                  {index < parts.length - 1 && <code>/data/league-data</code>}
+                </span>
+              ))}
+            </p>
+          </div>
+        </section>
+
+        <section id={SECTION_IDS.controls} className={styles.controlsCard}>
+          <div className={styles.controlsHeader}>
+            <SectionHeader
+              eyebrow={messages.controlsEyebrow}
+              title={messages.controlsTitle}
+              description={messages.controlsDescription}
+            />
+          </div>
+
+          <div className={styles.controlsGrid}>
+            <label className={styles.field}>
+              <span>{messages.leagueLabel}</span>
+              <select
+                value={selectedLeagueId}
+                onChange={(event) => {
+                  const nextLeagueId = event.target.value;
+                  const nextLeague = manifest?.leagues.find(
+                    (league) => league.leagueId === nextLeagueId,
+                  );
+
+                  setSelectedLeagueId(nextLeagueId);
+                  setSelectedViewKey(nextLeague?.latestViewKey ?? "");
+                }}
+                disabled={!manifest || manifest.leagues.length === 0}
+              >
+                {manifest?.leagues.map((league) => (
+                  <option key={league.leagueId} value={league.leagueId}>
+                    {messages.leagueNumber(league.leagueId)}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className={styles.field}>
+              <span>{messages.snapshotLabel}</span>
+              <select
+                value={selectedView?.key ?? ""}
+                onChange={(event) => setSelectedViewKey(event.target.value)}
+                disabled={!selectedLeague}
+              >
+                {selectedLeague?.views.map((view) => (
+                  <option key={view.key} value={view.key}>
+                    {getLocalizedViewLabel(view.key, formatViewLabel(view), locale)}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className={styles.field}>
+              <span>{messages.searchLabel}</span>
+              <input
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                placeholder={messages.searchPlaceholder}
+              />
+            </label>
+
+            <label className={styles.field}>
+              <span>{messages.managerLabel}</span>
+              <select
+                value={selectedManager}
+                onChange={(event) => setSelectedManager(event.target.value)}
+                disabled={!viewData}
+              >
+                <option value="all">{messages.allManagers}</option>
+                {managers.map((manager) => (
+                  <option key={manager} value={manager}>
+                    {manager}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className={styles.field}>
+              <span>{messages.sortLabel}</span>
+              <select
+                value={sortKey}
+                onChange={(event) => setSortKey(event.target.value as SortKey)}
+              >
+                <option value="rank">{messages.sortRank}</option>
+                <option value="points">{messages.sortPoints}</option>
+                <option value="manager">{messages.sortManager}</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        {status === "loading" && (
+          <section className={styles.stateCard}>
+            <p>{messages.loadingMessage}</p>
+          </section>
+        )}
+
+        {status === "error" && (
+          <section className={styles.stateCard}>
+            <h2>{messages.errorTitle}</h2>
+            <p>{error}</p>
+          </section>
+        )}
+
+        {status === "ready" && viewData && selectedLeague && selectedView && (
+          <>
+            <section id={SECTION_IDS.summary} className={styles.summaryGrid}>
+              <SummaryCard
+                label={messages.summaryLeague}
+                value={`#${selectedLeague.leagueId}`}
+                detail={getLocalizedViewLabel(
+                  selectedLeague.latestViewKey,
+                  selectedLeague.latestViewLabel,
+                  locale,
+                )}
+              />
+              <SummaryCard
+                label={messages.summarySnapshot}
+                value={getLocalizedViewLabel(selectedView.key, selectedView.label, locale)}
+                detail={messages.updatedAt(formatDateTime(selectedView.scrapedAt, locale))}
+              />
+              <SummaryCard
+                label={messages.summaryTeams}
+                value={String(viewData.teams.length)}
+                detail={messages.teamsShown(String(filteredTeams.length))}
+              />
+              <SummaryCard
+                label={messages.summaryPrediction}
+                value={topMomentum?.name ?? messages.waiting}
+                detail={predictionHighlight}
+              />
+            </section>
+
+            <section id={SECTION_IDS.standings} className={styles.section}>
+              <SectionHeader
+                eyebrow={messages.standingsEyebrow}
+                title={messages.standingsTitle}
+                description={messages.standingsDescription}
+              />
+
+              <div className={styles.standingsLayout}>
+                <div className={styles.tableCard}>
+                  <div className={styles.tableScroll}>
+                    <table className={styles.table}>
+                      <thead>
+                        <tr>
+                          <th>{messages.standingsTableRank}</th>
+                          <th>{messages.standingsTableTeam}</th>
+                          <th>{messages.standingsTableManager}</th>
+                          <th>{messages.standingsTablePoints}</th>
+                          <th>{messages.standingsTableConstructors}</th>
+                          <th>{messages.standingsTableStrategy}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredTeams.map((team) => (
+                          <tr
+                            key={`${team.rank}-${team.teamName}`}
+                            className={
+                              selectedTeam?.teamName === team.teamName ? styles.activeRow : ""
+                            }
+                            onClick={() => setSelectedTeamName(team.teamName)}
+                          >
+                            <td>#{team.rank}</td>
+                            <td>
+                              <strong>{team.teamName}</strong>
+                              <span>{team.lineup.drivers.slice(0, 2).join(", ")}</span>
+                            </td>
+                            <td>{team.manager}</td>
+                            <td>{formatCount(team.totalPoints)}</td>
+                            <td>{team.lineup.constructors.join(" / ")}</td>
+                            <td>{getChipLabel(team, messages)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <aside className={styles.detailPanel}>
+                  {!selectedTeam ? (
+                    <>
+                      <h3>{messages.teamDetailsTitle}</h3>
+                      <p>{messages.teamDetailsDescription}</p>
+                    </>
+                  ) : (
+                    <>
+                      <div className={styles.detailHeader}>
+                        <div>
+                          <span className={styles.badge}>{messages.selectedTeamBadge}</span>
+                          <h3>{getTeamDetailName(selectedTeam)}</h3>
+                          <p>{selectedTeam.manager}</p>
+                        </div>
+                        <div className={styles.detailRank}>
+                          <strong>#{selectedTeam.rank}</strong>
+                          <span>
+                            {formatCount(selectedTeam.totalPoints)} {messages.pointsShort}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className={styles.detailPanelScroll}>
+                        <div className={styles.detailGrid}>
+                          <div>
+                            <h4>{messages.driversLabel}</h4>
+                            <ul className={styles.detailList}>
+                              {selectedTeam.drivers.map((driver) => (
+                                <li key={driver.name}>
+                                  <span>{driver.name}</span>
+                                  <span>{driver.turbo ? messages.turboShort : "--"}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div>
+                            <h4>{messages.constructorsLabel}</h4>
+                            <ul className={styles.detailList}>
+                              {selectedTeam.constructors.map((constructorEntry) => (
+                                <li key={constructorEntry.name}>
+                                  <span>{constructorEntry.name}</span>
+                                  <span>{formatCount(constructorEntry.points)}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div className={styles.detailStats}>
+                          <div>
+                            <span>{messages.chipUsageLabel}</span>
+                            <strong>{getChipLabel(selectedTeam, messages)}</strong>
+                          </div>
+                          <div>
+                            <span>{messages.transferStateLabel}</span>
+                            <strong>
+                              {formatCount(selectedTeam.transfer.made)} {messages.madeLabel} /{" "}
+                              {formatCount(selectedTeam.transfer.allowed)} {messages.allowedLabel}
+                            </strong>
+                          </div>
+                          <div>
+                            <span>{messages.penaltyPointsLabel}</span>
+                            <strong>{formatCount(selectedTeam.transfer.penaltyPoints)}</strong>
+                          </div>
+                          <div>
+                            <span>{messages.costCapLabel}</span>
+                            <strong>{selectedTeam.costCap ?? "--"}</strong>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </aside>
+              </div>
+            </section>
+
+            <section id={SECTION_IDS.distribution} className={styles.section}>
+              <SectionHeader
+                eyebrow={messages.distributionEyebrow}
+                title={messages.distributionTitle}
+                description={messages.distributionDescription}
+              />
+
+              <div className={styles.summaryGrid}>
+                <SummaryCard
+                  label={messages.mostOwnedDriver}
+                  value={topOwnedDriver?.name ?? "--"}
+                  detail={
+                    topOwnedDriver
+                      ? `${formatPercent(topOwnedDriver.percentage)} ${messages.ownershipSuffix}`
+                      : messages.noOwnershipData
+                  }
+                />
+                <SummaryCard
+                  label={messages.mostOwnedConstructor}
+                  value={topOwnedConstructor?.name ?? "--"}
+                  detail={
+                    topOwnedConstructor
+                      ? `${formatPercent(topOwnedConstructor.percentage)} ${messages.ownershipSuffix}`
+                      : messages.noOwnershipData
+                  }
+                />
+                <SummaryCard
+                  label={messages.templateDrivers}
+                  value={insightsData?.groups.template.drivers.length.toString() ?? "0"}
+                  detail={insightsData?.groups.template.drivers.join(", ") ?? messages.noTemplateData}
+                />
+                <SummaryCard
+                  label={messages.duplicateLineups}
+                  value={String(insightsData?.groups.duplicateLineups.length ?? 0)}
+                  detail={messages.duplicateLineupsDetail}
+                />
+              </div>
+
+              <div className={styles.chartsGrid}>
+                <StatBarList
+                  title={messages.topDriverOwnership}
+                  items={insightsData?.ownership.drivers.slice(0, 8) ?? []}
+                  valueLabel={(entry) =>
+                    `${formatPercent(entry.percentage)} · ${entry.count} ${messages.teamsSuffix}`
+                  }
+                />
+                <StatBarList
+                  title={messages.topConstructorOwnership}
+                  items={insightsData?.ownership.constructors.slice(0, 8) ?? []}
+                  valueLabel={(entry) =>
+                    `${formatPercent(entry.percentage)} · ${entry.count} ${messages.teamsSuffix}`
+                  }
+                />
+                <StatBarList
+                  title={messages.chipUsageChart}
+                  items={insightsData?.ownership.chips ?? []}
+                  valueLabel={(entry) =>
+                    `${formatPercent(entry.percentage)} · ${entry.count} ${messages.usesSuffix}`
+                  }
+                />
+              </div>
+
+              <div className={styles.twoColumnGrid}>
+                <PairList
+                  title={messages.mostCommonDriverPairs}
+                  items={insightsData?.groups.mostCommonDriverPairs.slice(0, 5) ?? []}
+                  messages={messages}
+                />
+                <PairList
+                  title={messages.mostCommonConstructorPairs}
+                  items={insightsData?.groups.mostCommonConstructorPairs.slice(0, 5) ?? []}
+                  messages={messages}
+                />
+              </div>
+            </section>
+
+            <section id={SECTION_IDS.predictions} className={styles.section}>
+              <SectionHeader
+                eyebrow={messages.predictionsEyebrow}
+                title={messages.predictionsTitle}
+                description={messages.predictionsDescription}
+              />
+
+              <div className={styles.predictionHero}>
+                <div>
+                  <span className={styles.eyebrow}>{messages.currentHighlight}</span>
+                  <h3>{predictionHighlight}</h3>
+                  <p>
+                    {messages.predictionsHero(
+                      String(insightsData?.predictions.topTeamSampleSize ?? 0),
+                    )}
+                  </p>
+                </div>
+                <div
+                  className={`${styles.toneBadge} ${
+                    styles[getPredictionTone(topMomentum?.momentumScore)]
+                  }`}
+                >
+                  {topMomentum?.momentumScore?.toFixed(1) ?? "--"} {messages.momentumSuffix}
+                </div>
+              </div>
+
+              <div className={styles.twoColumnGrid}>
+                <InsightTeamList
+                  title={messages.mostUniqueTeams}
+                  items={insightsData?.teamInsights.mostUniqueTeams.slice(0, 5) ?? []}
+                  emphasis="unique"
+                  messages={messages}
+                />
+                <InsightTeamList
+                  title={messages.mostTemplateTeams}
+                  items={insightsData?.teamInsights.mostTemplateTeams.slice(0, 5) ?? []}
+                  emphasis="template"
+                  messages={messages}
+                />
+              </div>
+
+              <div className={styles.threeColumnGrid}>
+                <PredictionList
+                  title={messages.momentumPicks}
+                  items={insightsData?.predictions.pickMomentum.slice(0, 6) ?? []}
+                  locale={locale}
+                  messages={messages}
+                />
+                <PredictionList
+                  title={messages.underownedTopPicks}
+                  items={insightsData?.predictions.underownedTopPicks.slice(0, 6) ?? []}
+                  locale={locale}
+                  messages={messages}
+                />
+                <PredictionList
+                  title={messages.overexposedPicks}
+                  items={insightsData?.predictions.overexposedPicks.slice(0, 6) ?? []}
+                  locale={locale}
+                  messages={messages}
+                />
+              </div>
+
+              <div className={styles.twoColumnGrid}>
+                <PredictionList
+                  title={messages.leaderDifferentials}
+                  items={insightsData?.predictions.leaderDifferentials.slice(0, 6) ?? []}
+                  locale={locale}
+                  messages={messages}
+                />
+                <article className={styles.subSectionCard}>
+                  <h3>{messages.leaderOverlap}</h3>
+                  <ul className={styles.simpleList}>
+                    {insightsData?.teamInsights.leaderOverlap.slice(0, 6).map((team) => (
+                      <li key={`${team.rank}-${team.teamName}`}>
+                        <div>
+                          <strong>
+                            #{team.rank} {team.teamName}
+                          </strong>
+                          <span>{formatPercent(team.overlapPercentage)}</span>
+                        </div>
+                        <p>
+                          {messages.leaderOverlapDetail(
+                            team.overlapCount,
+                            team.matchingDrivers.length,
+                            team.matchingConstructors.length,
+                          )}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              </div>
+            </section>
+          </>
+        )}
+      </main>
+    </div>
   );
 }
