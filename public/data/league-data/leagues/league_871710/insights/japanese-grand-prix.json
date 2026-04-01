@@ -1,0 +1,1447 @@
+{
+  "schemaVersion": 1,
+  "exportedAt": "2026-04-01T03:30:20Z",
+  "leagueId": "871710",
+  "leagueUrl": "https://fantasy.formula1.com/en/leagues/leaderboard/public/871710",
+  "scrapedAt": "2026-04-01T03:22:27.523Z",
+  "targetRace": "Japanese Grand Prix",
+  "viewKey": "japanese-grand-prix",
+  "viewLabel": "Japanese Grand Prix",
+  "teamCount": 46,
+  "sourceFile": "league_871710_japanese-grand-prix.json",
+  "generatedFrom": {
+    "viewFile": "leagues/league_871710/views/japanese-grand-prix.json",
+    "insightFile": "leagues/league_871710/insights/japanese-grand-prix.json"
+  },
+  "featureInputs": {
+    "allTeamPicks": {
+      "source": "view",
+      "viewFile": "leagues/league_871710/views/japanese-grand-prix.json"
+    },
+    "pickDistribution": {
+      "source": "view+insights",
+      "viewFile": "leagues/league_871710/views/japanese-grand-prix.json",
+      "insightFile": "leagues/league_871710/insights/japanese-grand-prix.json"
+    },
+    "predictions": {
+      "source": "insights",
+      "insightFile": "leagues/league_871710/insights/japanese-grand-prix.json"
+    }
+  },
+  "ownership": {
+    "drivers": [
+      {
+        "name": "Oliver Bearman",
+        "count": 29,
+        "percentage": 63.0,
+        "topTeamCount": 3,
+        "topTeamPercentage": 27.3,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "George Russell",
+        "count": 25,
+        "percentage": 54.3,
+        "topTeamCount": 4,
+        "topTeamPercentage": 36.4,
+        "turboCount": 22,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Arvid Lindblad",
+        "count": 17,
+        "percentage": 37.0,
+        "topTeamCount": 4,
+        "topTeamPercentage": 36.4,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Charles Leclerc",
+        "count": 16,
+        "percentage": 34.8,
+        "topTeamCount": 9,
+        "topTeamPercentage": 81.8,
+        "turboCount": 6,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Gabriel Bortoleto",
+        "count": 15,
+        "percentage": 32.6,
+        "topTeamCount": 4,
+        "topTeamPercentage": 36.4,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Esteban Ocon",
+        "count": 13,
+        "percentage": 28.3,
+        "topTeamCount": 2,
+        "topTeamPercentage": 18.2,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Franco Colapinto",
+        "count": 13,
+        "percentage": 28.3,
+        "topTeamCount": 2,
+        "topTeamPercentage": 18.2,
+        "turboCount": 2,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Kimi Antonelli",
+        "count": 13,
+        "percentage": 28.3,
+        "topTeamCount": 8,
+        "topTeamPercentage": 72.7,
+        "turboCount": 7,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Pierre Gasly",
+        "count": 13,
+        "percentage": 28.3,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Valtteri Bottas",
+        "count": 13,
+        "percentage": 28.3,
+        "topTeamCount": 2,
+        "topTeamPercentage": 18.2,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Nico Hülkenberg",
+        "count": 12,
+        "percentage": 26.1,
+        "topTeamCount": 2,
+        "topTeamPercentage": 18.2,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Lewis Hamilton",
+        "count": 11,
+        "percentage": 23.9,
+        "topTeamCount": 6,
+        "topTeamPercentage": 54.5,
+        "turboCount": 4,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Isack Hadjar",
+        "count": 10,
+        "percentage": 21.7,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "turboCount": 1,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Liam Lawson",
+        "count": 7,
+        "percentage": 15.2,
+        "topTeamCount": 2,
+        "topTeamPercentage": 18.2,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Sergio Pérez",
+        "count": 7,
+        "percentage": 15.2,
+        "topTeamCount": 3,
+        "topTeamPercentage": 27.3,
+        "turboCount": 1,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Oscar Piastri",
+        "count": 5,
+        "percentage": 10.9,
+        "topTeamCount": 4,
+        "topTeamPercentage": 36.4,
+        "turboCount": 1,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Carlos Sainz",
+        "count": 3,
+        "percentage": 6.5,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Fernando Alonso",
+        "count": 3,
+        "percentage": 6.5,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Max Verstappen",
+        "count": 2,
+        "percentage": 4.3,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "turboCount": 0,
+        "x3BoostCount": 1
+      },
+      {
+        "name": "Alexander Albon",
+        "count": 1,
+        "percentage": 2.2,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Lance Stroll",
+        "count": 1,
+        "percentage": 2.2,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Lando Norris",
+        "count": 1,
+        "percentage": 2.2,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "turboCount": 1,
+        "x3BoostCount": 0
+      }
+    ],
+    "constructors": [
+      {
+        "name": "Mercedes",
+        "count": 25,
+        "percentage": 54.3,
+        "topTeamCount": 7,
+        "topTeamPercentage": 63.6,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Ferrari",
+        "count": 21,
+        "percentage": 45.7,
+        "topTeamCount": 11,
+        "topTeamPercentage": 100.0,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Haas",
+        "count": 19,
+        "percentage": 41.3,
+        "topTeamCount": 2,
+        "topTeamPercentage": 18.2,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Racing Bulls",
+        "count": 16,
+        "percentage": 34.8,
+        "topTeamCount": 2,
+        "topTeamPercentage": 18.2,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Audi",
+        "count": 4,
+        "percentage": 8.7,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Alpine",
+        "count": 2,
+        "percentage": 4.3,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Williams",
+        "count": 2,
+        "percentage": 4.3,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Aston Martin",
+        "count": 1,
+        "percentage": 2.2,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "Cadillac",
+        "count": 1,
+        "percentage": 2.2,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      },
+      {
+        "name": "McLaren",
+        "count": 1,
+        "percentage": 2.2,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "turboCount": 0,
+        "x3BoostCount": 0
+      }
+    ],
+    "chips": [
+      {
+        "name": "x3 Boost",
+        "count": 13,
+        "percentage": 28.3
+      },
+      {
+        "name": "Limitless",
+        "count": 6,
+        "percentage": 13.0
+      },
+      {
+        "name": "Autopilot",
+        "count": 4,
+        "percentage": 8.7
+      },
+      {
+        "name": "Wildcard",
+        "count": 2,
+        "percentage": 4.3
+      },
+      {
+        "name": "Final Fix",
+        "count": 1,
+        "percentage": 2.2
+      },
+      {
+        "name": "No Negative",
+        "count": 1,
+        "percentage": 2.2
+      }
+    ]
+  },
+  "groups": {
+    "template": {
+      "drivers": [
+        "Oliver Bearman",
+        "George Russell",
+        "Arvid Lindblad",
+        "Charles Leclerc",
+        "Gabriel Bortoleto"
+      ],
+      "constructors": [
+        "Mercedes",
+        "Ferrari"
+      ]
+    },
+    "mostCommonDriverPairs": [
+      {
+        "names": [
+          "George Russell",
+          "Oliver Bearman"
+        ],
+        "count": 16,
+        "percentage": 34.8
+      },
+      {
+        "names": [
+          "Oliver Bearman",
+          "Pierre Gasly"
+        ],
+        "count": 13,
+        "percentage": 28.3
+      },
+      {
+        "names": [
+          "Esteban Ocon",
+          "Oliver Bearman"
+        ],
+        "count": 10,
+        "percentage": 21.7
+      },
+      {
+        "names": [
+          "Gabriel Bortoleto",
+          "Oliver Bearman"
+        ],
+        "count": 10,
+        "percentage": 21.7
+      },
+      {
+        "names": [
+          "Isack Hadjar",
+          "Oliver Bearman"
+        ],
+        "count": 10,
+        "percentage": 21.7
+      },
+      {
+        "names": [
+          "Arvid Lindblad",
+          "Oliver Bearman"
+        ],
+        "count": 9,
+        "percentage": 19.6
+      },
+      {
+        "names": [
+          "Charles Leclerc",
+          "Kimi Antonelli"
+        ],
+        "count": 9,
+        "percentage": 19.6
+      },
+      {
+        "names": [
+          "Charles Leclerc",
+          "Oliver Bearman"
+        ],
+        "count": 9,
+        "percentage": 19.6
+      },
+      {
+        "names": [
+          "George Russell",
+          "Pierre Gasly"
+        ],
+        "count": 8,
+        "percentage": 17.4
+      },
+      {
+        "names": [
+          "Nico Hülkenberg",
+          "Oliver Bearman"
+        ],
+        "count": 8,
+        "percentage": 17.4
+      }
+    ],
+    "mostCommonConstructorPairs": [
+      {
+        "names": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "count": 9,
+        "percentage": 19.6
+      },
+      {
+        "names": [
+          "Haas",
+          "Mercedes"
+        ],
+        "count": 9,
+        "percentage": 19.6
+      },
+      {
+        "names": [
+          "Ferrari",
+          "Racing Bulls"
+        ],
+        "count": 6,
+        "percentage": 13.0
+      },
+      {
+        "names": [
+          "Ferrari",
+          "Haas"
+        ],
+        "count": 5,
+        "percentage": 10.9
+      },
+      {
+        "names": [
+          "Haas",
+          "Racing Bulls"
+        ],
+        "count": 5,
+        "percentage": 10.9
+      },
+      {
+        "names": [
+          "Audi",
+          "Mercedes"
+        ],
+        "count": 3,
+        "percentage": 6.5
+      },
+      {
+        "names": [
+          "Mercedes",
+          "Racing Bulls"
+        ],
+        "count": 3,
+        "percentage": 6.5
+      }
+    ],
+    "duplicateLineups": [
+      {
+        "drivers": [
+          "Charles Leclerc",
+          "George Russell",
+          "Kimi Antonelli",
+          "Lewis Hamilton",
+          "Oscar Piastri"
+        ],
+        "constructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "teamCount": 4,
+        "teams": [
+          {
+            "rank": 1,
+            "teamName": "TeamRozanov",
+            "manager": "Annette Blue",
+            "socialId": 232057026,
+            "managerTeamNumber": 2,
+            "managerTeamCount": 3,
+            "managerTeamLabel": "T2",
+            "totalPoints": 387
+          },
+          {
+            "rank": 2,
+            "teamName": "TeamHollander",
+            "manager": "Annette Blue",
+            "socialId": 232057026,
+            "managerTeamNumber": 1,
+            "managerTeamCount": 3,
+            "managerTeamLabel": "T1",
+            "totalPoints": 368
+          },
+          {
+            "rank": 3,
+            "teamName": "big Smiling",
+            "manager": "Judy Naka",
+            "socialId": 220935007,
+            "managerTeamNumber": 1,
+            "managerTeamCount": 3,
+            "managerTeamLabel": "T1",
+            "totalPoints": 364
+          },
+          {
+            "rank": 3,
+            "teamName": "prolific3",
+            "manager": "Max Ult",
+            "socialId": 217737144,
+            "managerTeamNumber": 3,
+            "managerTeamCount": 3,
+            "managerTeamLabel": "T3",
+            "totalPoints": 364
+          }
+        ]
+      }
+    ]
+  },
+  "teamInsights": {
+    "mostUniqueTeams": [
+      {
+        "rank": 46,
+        "teamName": "Calorie",
+        "manager": "Abdul Ahed",
+        "socialId": 231624274,
+        "managerTeamNumber": 2,
+        "managerTeamCount": 2,
+        "managerTeamLabel": "T2",
+        "totalPoints": -6,
+        "uniqueDriverCount": 1,
+        "uniqueConstructorCount": 1,
+        "uniquePickCount": 2,
+        "lowOwnedDrivers": [
+          "Fernando Alonso",
+          "Lance Stroll"
+        ],
+        "lowOwnedConstructors": [
+          "Aston Martin",
+          "Audi"
+        ],
+        "averagePickOwnership": 15.9
+      },
+      {
+        "rank": 38,
+        "teamName": "ZEEEEE TEAM",
+        "manager": "Perla Silva",
+        "socialId": 212232034,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 139,
+        "uniqueDriverCount": 1,
+        "uniqueConstructorCount": 1,
+        "uniquePickCount": 2,
+        "lowOwnedDrivers": [
+          "Carlos Sainz",
+          "Lando Norris"
+        ],
+        "lowOwnedConstructors": [
+          "McLaren",
+          "Williams"
+        ],
+        "averagePickOwnership": 16.2
+      },
+      {
+        "rank": 44,
+        "teamName": "velaracingteam",
+        "manager": "felipe vela",
+        "socialId": 232680922,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 57,
+        "uniqueDriverCount": 0,
+        "uniqueConstructorCount": 1,
+        "uniquePickCount": 1,
+        "lowOwnedDrivers": [
+          "Liam Lawson",
+          "Sergio Pérez"
+        ],
+        "lowOwnedConstructors": [
+          "Cadillac"
+        ],
+        "averagePickOwnership": 21.4
+      },
+      {
+        "rank": 41,
+        "teamName": "Lau.no",
+        "manager": "Thee Nitro",
+        "socialId": 217675024,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 2,
+        "managerTeamLabel": "T1",
+        "totalPoints": 128,
+        "uniqueDriverCount": 1,
+        "uniqueConstructorCount": 0,
+        "uniquePickCount": 1,
+        "lowOwnedDrivers": [
+          "Alexander Albon",
+          "Max Verstappen",
+          "Oscar Piastri"
+        ],
+        "lowOwnedConstructors": [],
+        "averagePickOwnership": 26.4
+      },
+      {
+        "rank": 7,
+        "teamName": "Xiao MI",
+        "manager": "Yuzhao Wang",
+        "socialId": 233151418,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 2,
+        "managerTeamLabel": "T1",
+        "totalPoints": 222,
+        "uniqueDriverCount": 0,
+        "uniqueConstructorCount": 0,
+        "uniquePickCount": 0,
+        "lowOwnedDrivers": [
+          "Liam Lawson",
+          "Sergio Pérez"
+        ],
+        "lowOwnedConstructors": [],
+        "averagePickOwnership": 31.1
+      },
+      {
+        "rank": 45,
+        "teamName": "champracingt",
+        "manager": "felipe vela",
+        "socialId": 232680922,
+        "managerTeamNumber": 2,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T2",
+        "totalPoints": 39,
+        "uniqueDriverCount": 0,
+        "uniqueConstructorCount": 0,
+        "uniquePickCount": 0,
+        "lowOwnedDrivers": [
+          "Sergio Pérez"
+        ],
+        "lowOwnedConstructors": [],
+        "averagePickOwnership": 31.1
+      },
+      {
+        "rank": 6,
+        "teamName": "Girone GXE-26B",
+        "manager": "Pato Busti",
+        "socialId": 156568189,
+        "managerTeamNumber": 2,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T2",
+        "totalPoints": 226,
+        "uniqueDriverCount": 0,
+        "uniqueConstructorCount": 0,
+        "uniquePickCount": 0,
+        "lowOwnedDrivers": [
+          "Sergio Pérez"
+        ],
+        "lowOwnedConstructors": [],
+        "averagePickOwnership": 32.6
+      },
+      {
+        "rank": 24,
+        "teamName": "Jimmy Clark F1",
+        "manager": "Shaun Carroll",
+        "socialId": 188866430,
+        "managerTeamNumber": 2,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T2",
+        "totalPoints": 166,
+        "uniqueDriverCount": 0,
+        "uniqueConstructorCount": 0,
+        "uniquePickCount": 0,
+        "lowOwnedDrivers": [
+          "Isack Hadjar"
+        ],
+        "lowOwnedConstructors": [
+          "Alpine"
+        ],
+        "averagePickOwnership": 32.6
+      },
+      {
+        "rank": 5,
+        "teamName": "Toto Recall 2",
+        "manager": "Matt McCracken",
+        "socialId": 86805971,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 239,
+        "uniqueDriverCount": 0,
+        "uniqueConstructorCount": 0,
+        "uniquePickCount": 0,
+        "lowOwnedDrivers": [
+          "Liam Lawson",
+          "Sergio Pérez"
+        ],
+        "lowOwnedConstructors": [],
+        "averagePickOwnership": 33.5
+      },
+      {
+        "rank": 16,
+        "teamName": "VarsMonstaz",
+        "manager": "Var too cool",
+        "socialId": 231830989,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 179,
+        "uniqueDriverCount": 0,
+        "uniqueConstructorCount": 0,
+        "uniquePickCount": 0,
+        "lowOwnedDrivers": [
+          "Isack Hadjar",
+          "Max Verstappen"
+        ],
+        "lowOwnedConstructors": [],
+        "averagePickOwnership": 33.5
+      }
+    ],
+    "mostTemplateTeams": [
+      {
+        "rank": 5,
+        "teamName": "Toto Recall 2",
+        "manager": "Matt McCracken",
+        "socialId": 86805971,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 239,
+        "matchingDrivers": [
+          "Arvid Lindblad",
+          "Charles Leclerc",
+          "Gabriel Bortoleto"
+        ],
+        "matchingConstructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "overlapCount": 5,
+        "overlapPercentage": 71.4
+      },
+      {
+        "rank": 21,
+        "teamName": "rokieracing",
+        "manager": "felipe vela",
+        "socialId": 232680922,
+        "managerTeamNumber": 3,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T3",
+        "totalPoints": 174,
+        "matchingDrivers": [
+          "Arvid Lindblad",
+          "Gabriel Bortoleto",
+          "Oliver Bearman"
+        ],
+        "matchingConstructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "overlapCount": 5,
+        "overlapPercentage": 71.4
+      },
+      {
+        "rank": 22,
+        "teamName": "T2",
+        "manager": "Roookies Racing",
+        "socialId": 218176115,
+        "managerTeamNumber": 2,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T2",
+        "totalPoints": 171,
+        "matchingDrivers": [
+          "Arvid Lindblad",
+          "Gabriel Bortoleto",
+          "Oliver Bearman"
+        ],
+        "matchingConstructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "overlapCount": 5,
+        "overlapPercentage": 71.4
+      },
+      {
+        "rank": 25,
+        "teamName": "ChrisAo",
+        "manager": "",
+        "socialId": 205723994,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 1,
+        "managerTeamLabel": "T1",
+        "totalPoints": 164,
+        "matchingDrivers": [
+          "Arvid Lindblad",
+          "Gabriel Bortoleto",
+          "George Russell",
+          "Oliver Bearman"
+        ],
+        "matchingConstructors": [
+          "Mercedes"
+        ],
+        "overlapCount": 5,
+        "overlapPercentage": 71.4
+      },
+      {
+        "rank": 1,
+        "teamName": "TeamRozanov",
+        "manager": "Annette Blue",
+        "socialId": 232057026,
+        "managerTeamNumber": 2,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T2",
+        "totalPoints": 387,
+        "matchingDrivers": [
+          "Charles Leclerc",
+          "George Russell"
+        ],
+        "matchingConstructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "overlapCount": 4,
+        "overlapPercentage": 57.1
+      },
+      {
+        "rank": 2,
+        "teamName": "TeamHollander",
+        "manager": "Annette Blue",
+        "socialId": 232057026,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 368,
+        "matchingDrivers": [
+          "Charles Leclerc",
+          "George Russell"
+        ],
+        "matchingConstructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "overlapCount": 4,
+        "overlapPercentage": 57.1
+      },
+      {
+        "rank": 3,
+        "teamName": "big Smiling",
+        "manager": "Judy Naka",
+        "socialId": 220935007,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 364,
+        "matchingDrivers": [
+          "Charles Leclerc",
+          "George Russell"
+        ],
+        "matchingConstructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "overlapCount": 4,
+        "overlapPercentage": 57.1
+      },
+      {
+        "rank": 3,
+        "teamName": "prolific3",
+        "manager": "Max Ult",
+        "socialId": 217737144,
+        "managerTeamNumber": 3,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T3",
+        "totalPoints": 364,
+        "matchingDrivers": [
+          "Charles Leclerc",
+          "George Russell"
+        ],
+        "matchingConstructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "overlapCount": 4,
+        "overlapPercentage": 57.1
+      },
+      {
+        "rank": 9,
+        "teamName": "prolific1",
+        "manager": "Max Ult",
+        "socialId": 217737144,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 220,
+        "matchingDrivers": [
+          "Arvid Lindblad",
+          "Charles Leclerc",
+          "Oliver Bearman"
+        ],
+        "matchingConstructors": [
+          "Ferrari"
+        ],
+        "overlapCount": 4,
+        "overlapPercentage": 57.1
+      },
+      {
+        "rank": 10,
+        "teamName": "T1",
+        "manager": "Aasuka Martini F1",
+        "socialId": 218176115,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 217,
+        "matchingDrivers": [
+          "Charles Leclerc",
+          "Gabriel Bortoleto",
+          "Oliver Bearman"
+        ],
+        "matchingConstructors": [
+          "Ferrari"
+        ],
+        "overlapCount": 4,
+        "overlapPercentage": 57.1
+      }
+    ],
+    "leaderOverlap": [
+      {
+        "rank": 1,
+        "teamName": "TeamRozanov",
+        "manager": "Annette Blue",
+        "socialId": 232057026,
+        "managerTeamNumber": 2,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T2",
+        "totalPoints": 387,
+        "matchingDrivers": [
+          "Charles Leclerc",
+          "George Russell",
+          "Kimi Antonelli",
+          "Lewis Hamilton",
+          "Oscar Piastri"
+        ],
+        "matchingConstructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "overlapCount": 7,
+        "overlapPercentage": 100.0
+      },
+      {
+        "rank": 2,
+        "teamName": "TeamHollander",
+        "manager": "Annette Blue",
+        "socialId": 232057026,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 368,
+        "matchingDrivers": [
+          "Charles Leclerc",
+          "George Russell",
+          "Kimi Antonelli",
+          "Lewis Hamilton",
+          "Oscar Piastri"
+        ],
+        "matchingConstructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "overlapCount": 7,
+        "overlapPercentage": 100.0
+      },
+      {
+        "rank": 3,
+        "teamName": "big Smiling",
+        "manager": "Judy Naka",
+        "socialId": 220935007,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 364,
+        "matchingDrivers": [
+          "Charles Leclerc",
+          "George Russell",
+          "Kimi Antonelli",
+          "Lewis Hamilton",
+          "Oscar Piastri"
+        ],
+        "matchingConstructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "overlapCount": 7,
+        "overlapPercentage": 100.0
+      },
+      {
+        "rank": 3,
+        "teamName": "prolific3",
+        "manager": "Max Ult",
+        "socialId": 217737144,
+        "managerTeamNumber": 3,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T3",
+        "totalPoints": 364,
+        "matchingDrivers": [
+          "Charles Leclerc",
+          "George Russell",
+          "Kimi Antonelli",
+          "Lewis Hamilton",
+          "Oscar Piastri"
+        ],
+        "matchingConstructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "overlapCount": 7,
+        "overlapPercentage": 100.0
+      },
+      {
+        "rank": 5,
+        "teamName": "Toto Recall 2",
+        "manager": "Matt McCracken",
+        "socialId": 86805971,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 239,
+        "matchingDrivers": [
+          "Charles Leclerc"
+        ],
+        "matchingConstructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "overlapCount": 3,
+        "overlapPercentage": 42.9
+      },
+      {
+        "rank": 6,
+        "teamName": "Girone GXE-26B",
+        "manager": "Pato Busti",
+        "socialId": 156568189,
+        "managerTeamNumber": 2,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T2",
+        "totalPoints": 226,
+        "matchingDrivers": [
+          "Lewis Hamilton"
+        ],
+        "matchingConstructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "overlapCount": 3,
+        "overlapPercentage": 42.9
+      },
+      {
+        "rank": 7,
+        "teamName": "Team Ferrari 2026",
+        "manager": "Atanas Belomorov",
+        "socialId": 92976457,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 222,
+        "matchingDrivers": [
+          "Charles Leclerc",
+          "Kimi Antonelli"
+        ],
+        "matchingConstructors": [
+          "Ferrari"
+        ],
+        "overlapCount": 3,
+        "overlapPercentage": 42.9
+      },
+      {
+        "rank": 7,
+        "teamName": "Xiao MI",
+        "manager": "Yuzhao Wang",
+        "socialId": 233151418,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 2,
+        "managerTeamLabel": "T1",
+        "totalPoints": 222,
+        "matchingDrivers": [
+          "Lewis Hamilton"
+        ],
+        "matchingConstructors": [
+          "Ferrari",
+          "Mercedes"
+        ],
+        "overlapCount": 3,
+        "overlapPercentage": 42.9
+      },
+      {
+        "rank": 9,
+        "teamName": "prolific1",
+        "manager": "Max Ult",
+        "socialId": 217737144,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 220,
+        "matchingDrivers": [
+          "Charles Leclerc",
+          "Kimi Antonelli"
+        ],
+        "matchingConstructors": [
+          "Ferrari"
+        ],
+        "overlapCount": 3,
+        "overlapPercentage": 42.9
+      },
+      {
+        "rank": 10,
+        "teamName": "T1",
+        "manager": "Aasuka Martini F1",
+        "socialId": 218176115,
+        "managerTeamNumber": 1,
+        "managerTeamCount": 3,
+        "managerTeamLabel": "T1",
+        "totalPoints": 217,
+        "matchingDrivers": [
+          "Charles Leclerc",
+          "Kimi Antonelli"
+        ],
+        "matchingConstructors": [
+          "Ferrari"
+        ],
+        "overlapCount": 3,
+        "overlapPercentage": 42.9
+      }
+    ]
+  },
+  "predictions": {
+    "method": "heuristic",
+    "topTeamSampleSize": 11,
+    "pickMomentum": [
+      {
+        "name": "Ferrari",
+        "type": "constructor",
+        "overallCount": 21,
+        "overallPercentage": 45.7,
+        "topTeamCount": 11,
+        "topTeamPercentage": 100.0,
+        "momentumScore": 54.3
+      },
+      {
+        "name": "Charles Leclerc",
+        "type": "driver",
+        "overallCount": 16,
+        "overallPercentage": 34.8,
+        "topTeamCount": 9,
+        "topTeamPercentage": 81.8,
+        "momentumScore": 47.0
+      },
+      {
+        "name": "Kimi Antonelli",
+        "type": "driver",
+        "overallCount": 13,
+        "overallPercentage": 28.3,
+        "topTeamCount": 8,
+        "topTeamPercentage": 72.7,
+        "momentumScore": 44.4
+      },
+      {
+        "name": "Lewis Hamilton",
+        "type": "driver",
+        "overallCount": 11,
+        "overallPercentage": 23.9,
+        "topTeamCount": 6,
+        "topTeamPercentage": 54.5,
+        "momentumScore": 30.6
+      },
+      {
+        "name": "Oscar Piastri",
+        "type": "driver",
+        "overallCount": 5,
+        "overallPercentage": 10.9,
+        "topTeamCount": 4,
+        "topTeamPercentage": 36.4,
+        "momentumScore": 25.5
+      },
+      {
+        "name": "Sergio Pérez",
+        "type": "driver",
+        "overallCount": 7,
+        "overallPercentage": 15.2,
+        "topTeamCount": 3,
+        "topTeamPercentage": 27.3,
+        "momentumScore": 12.1
+      },
+      {
+        "name": "Mercedes",
+        "type": "constructor",
+        "overallCount": 25,
+        "overallPercentage": 54.3,
+        "topTeamCount": 7,
+        "topTeamPercentage": 63.6,
+        "momentumScore": 9.3
+      },
+      {
+        "name": "Gabriel Bortoleto",
+        "type": "driver",
+        "overallCount": 15,
+        "overallPercentage": 32.6,
+        "topTeamCount": 4,
+        "topTeamPercentage": 36.4,
+        "momentumScore": 3.8
+      },
+      {
+        "name": "Liam Lawson",
+        "type": "driver",
+        "overallCount": 7,
+        "overallPercentage": 15.2,
+        "topTeamCount": 2,
+        "topTeamPercentage": 18.2,
+        "momentumScore": 3.0
+      },
+      {
+        "name": "Arvid Lindblad",
+        "type": "driver",
+        "overallCount": 17,
+        "overallPercentage": 37.0,
+        "topTeamCount": 4,
+        "topTeamPercentage": 36.4,
+        "momentumScore": -0.6
+      },
+      {
+        "name": "Alexander Albon",
+        "type": "driver",
+        "overallCount": 1,
+        "overallPercentage": 2.2,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "momentumScore": -2.2
+      },
+      {
+        "name": "Aston Martin",
+        "type": "constructor",
+        "overallCount": 1,
+        "overallPercentage": 2.2,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "momentumScore": -2.2
+      },
+      {
+        "name": "Cadillac",
+        "type": "constructor",
+        "overallCount": 1,
+        "overallPercentage": 2.2,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "momentumScore": -2.2
+      },
+      {
+        "name": "Lance Stroll",
+        "type": "driver",
+        "overallCount": 1,
+        "overallPercentage": 2.2,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "momentumScore": -2.2
+      },
+      {
+        "name": "Lando Norris",
+        "type": "driver",
+        "overallCount": 1,
+        "overallPercentage": 2.2,
+        "topTeamCount": 0,
+        "topTeamPercentage": 0.0,
+        "momentumScore": -2.2
+      }
+    ],
+    "underownedTopPicks": [
+      {
+        "name": "Charles Leclerc",
+        "type": "driver",
+        "overallCount": 16,
+        "overallPercentage": 34.8,
+        "topTeamCount": 9,
+        "topTeamPercentage": 81.8,
+        "momentumScore": 47.0
+      },
+      {
+        "name": "Kimi Antonelli",
+        "type": "driver",
+        "overallCount": 13,
+        "overallPercentage": 28.3,
+        "topTeamCount": 8,
+        "topTeamPercentage": 72.7,
+        "momentumScore": 44.4
+      },
+      {
+        "name": "Lewis Hamilton",
+        "type": "driver",
+        "overallCount": 11,
+        "overallPercentage": 23.9,
+        "topTeamCount": 6,
+        "topTeamPercentage": 54.5,
+        "momentumScore": 30.6
+      },
+      {
+        "name": "Oscar Piastri",
+        "type": "driver",
+        "overallCount": 5,
+        "overallPercentage": 10.9,
+        "topTeamCount": 4,
+        "topTeamPercentage": 36.4,
+        "momentumScore": 25.5
+      },
+      {
+        "name": "Sergio Pérez",
+        "type": "driver",
+        "overallCount": 7,
+        "overallPercentage": 15.2,
+        "topTeamCount": 3,
+        "topTeamPercentage": 27.3,
+        "momentumScore": 12.1
+      },
+      {
+        "name": "Gabriel Bortoleto",
+        "type": "driver",
+        "overallCount": 15,
+        "overallPercentage": 32.6,
+        "topTeamCount": 4,
+        "topTeamPercentage": 36.4,
+        "momentumScore": 3.8
+      },
+      {
+        "name": "Liam Lawson",
+        "type": "driver",
+        "overallCount": 7,
+        "overallPercentage": 15.2,
+        "topTeamCount": 2,
+        "topTeamPercentage": 18.2,
+        "momentumScore": 3.0
+      }
+    ],
+    "overexposedPicks": [
+      {
+        "name": "Oliver Bearman",
+        "type": "driver",
+        "overallCount": 29,
+        "overallPercentage": 63.0,
+        "topTeamCount": 3,
+        "topTeamPercentage": 27.3,
+        "momentumScore": -35.7
+      },
+      {
+        "name": "Haas",
+        "type": "constructor",
+        "overallCount": 19,
+        "overallPercentage": 41.3,
+        "topTeamCount": 2,
+        "topTeamPercentage": 18.2,
+        "momentumScore": -23.1
+      },
+      {
+        "name": "George Russell",
+        "type": "driver",
+        "overallCount": 25,
+        "overallPercentage": 54.3,
+        "topTeamCount": 4,
+        "topTeamPercentage": 36.4,
+        "momentumScore": -17.9
+      }
+    ],
+    "leaderDifferentials": [
+      {
+        "name": "Charles Leclerc",
+        "type": "driver",
+        "overallCount": 16,
+        "overallPercentage": 34.8
+      },
+      {
+        "name": "Kimi Antonelli",
+        "type": "driver",
+        "overallCount": 13,
+        "overallPercentage": 28.3
+      },
+      {
+        "name": "Lewis Hamilton",
+        "type": "driver",
+        "overallCount": 11,
+        "overallPercentage": 23.9
+      },
+      {
+        "name": "Oscar Piastri",
+        "type": "driver",
+        "overallCount": 5,
+        "overallPercentage": 10.9
+      }
+    ]
+  }
+}

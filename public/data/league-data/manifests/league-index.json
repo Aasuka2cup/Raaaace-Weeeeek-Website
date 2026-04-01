@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-03-31T03:18:59Z",
+  "generatedAt": "2026-04-01T03:30:20Z",
   "leagues": [
     {
       "leagueId": "871710",
       "leagueUrl": "https://fantasy.formula1.com/en/leagues/leaderboard/public/871710",
-      "latestViewKey": "chinese-grand-prix",
-      "latestViewLabel": "Chinese Grand Prix",
+      "latestViewKey": "japanese-grand-prix",
+      "latestViewLabel": "Japanese Grand Prix",
       "views": [
         {
           "key": "overall",
@@ -23,10 +23,20 @@
           "label": "Chinese Grand Prix",
           "targetRace": "Chinese Grand Prix",
           "teamCount": 40,
-          "scrapedAt": "2026-03-28T04:45:16.246Z",
+          "scrapedAt": "2026-04-01T03:18:52.709Z",
           "file": "leagues/league_871710/views/chinese-grand-prix.json",
           "insightFile": "leagues/league_871710/insights/chinese-grand-prix.json",
           "sourceFile": "league_871710_chinese-grand-prix.json"
+        },
+        {
+          "key": "japanese-grand-prix",
+          "label": "Japanese Grand Prix",
+          "targetRace": "Japanese Grand Prix",
+          "teamCount": 46,
+          "scrapedAt": "2026-04-01T03:22:27.523Z",
+          "file": "leagues/league_871710/views/japanese-grand-prix.json",
+          "insightFile": "leagues/league_871710/insights/japanese-grand-prix.json",
+          "sourceFile": "league_871710_japanese-grand-prix.json"
         }
       ]
     }

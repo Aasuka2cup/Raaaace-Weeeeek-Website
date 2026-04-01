@@ -28,6 +28,7 @@ export default function RootLayout({
       lang="en"
       data-theme="dark"
       className={`${geistSans.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
     >
       <body>{children}</body>
     </html>

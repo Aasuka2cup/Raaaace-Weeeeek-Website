@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import {
@@ -12,13 +13,13 @@ import {
   resolveView,
 } from "@/lib/league-data";
 import {
-  DASHBOARD_MESSAGES,
+  type DashboardMessages,
   SECTION_IDS,
-  STORAGE_KEYS,
   type Locale,
   type SectionId,
-  type Theme,
 } from "@/lib/messages";
+import { buildTeamRouteId } from "@/lib/season-data";
+import { useSitePreferences } from "@/lib/site-preferences";
 import type {
   ExportedLeague,
   LeagueInsightsData,
@@ -34,7 +35,7 @@ import type {
 import styles from "./F1FantasyDashboard.module.css";
 
 type SortKey = "rank" | "points" | "manager";
-type Messages = (typeof DASHBOARD_MESSAGES)["en"];
+type Messages = DashboardMessages;
 
 function formatPercent(value: number | undefined): string {
   if (value === undefined || Number.isNaN(value)) {
@@ -141,19 +142,6 @@ function getPredictionTone(momentumScore: number | undefined): "good" | "bad" | 
 
 function getInitialTeam(viewData: LeagueViewData | null): TeamEntry | null {
   return viewData?.teams[0] ?? null;
-}
-
-function getStoredPreference<T extends string>(
-  key: string,
-  allowedValues: readonly T[],
-  fallback: T,
-): T {
-  if (typeof window === "undefined") {
-    return fallback;
-  }
-
-  const stored = window.localStorage.getItem(key);
-  return stored && allowedValues.includes(stored as T) ? (stored as T) : fallback;
 }
 
 function getPredictionHighlight(
@@ -353,12 +341,7 @@ function PredictionList({
 }
 
 export function F1FantasyDashboard() {
-  const [theme, setTheme] = useState<Theme>(() =>
-    getStoredPreference(STORAGE_KEYS.theme, ["dark", "light"] as const, "dark"),
-  );
-  const [locale, setLocale] = useState<Locale>(() =>
-    getStoredPreference(STORAGE_KEYS.locale, ["en", "zh"] as const, "en"),
-  );
+  const { theme, setTheme, locale, setLocale, messages } = useSitePreferences();
   const [activeSection, setActiveSection] = useState<SectionId>(SECTION_IDS.intro);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [manifest, setManifest] = useState<LeagueManifest | null>(null);
@@ -372,18 +355,6 @@ export function F1FantasyDashboard() {
   const [sortKey, setSortKey] = useState<SortKey>("rank");
   const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const [error, setError] = useState<string>("");
-
-  const messages = DASHBOARD_MESSAGES[locale];
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    window.localStorage.setItem(STORAGE_KEYS.theme, theme);
-  }, [theme]);
-
-  useEffect(() => {
-    document.documentElement.lang = locale === "zh" ? "zh-CN" : "en";
-    window.localStorage.setItem(STORAGE_KEYS.locale, locale);
-  }, [locale]);
 
   useEffect(() => {
     const sectionIds = Object.values(SECTION_IDS);
@@ -622,6 +593,14 @@ export function F1FantasyDashboard() {
           <span />
         </button>
         <div className={styles.mobileUtilityPills}>
+          {selectedLeagueId ? (
+            <Link
+              className={styles.utilityLink}
+              href={`/leagues/${selectedLeagueId}/changes`}
+            >
+              {messages.teamChangesLink}
+            </Link>
+          ) : null}
           <a
             className={styles.utilityLink}
             href="https://github.com/Aasuka2cup/Raaaace-Weeeeek"
@@ -668,6 +647,11 @@ export function F1FantasyDashboard() {
 
       <main className={styles.page}>
         <div className={styles.utilityBar}>
+          {selectedLeagueId ? (
+            <Link className={styles.utilityLink} href={`/leagues/${selectedLeagueId}/changes`}>
+              {messages.teamChangesLink}
+            </Link>
+          ) : null}
           <a
             className={styles.utilityLink}
             href="https://github.com/Aasuka2cup/Raaaace-Weeeeek"
@@ -916,6 +900,16 @@ export function F1FantasyDashboard() {
                           <span className={styles.badge}>{messages.selectedTeamBadge}</span>
                           <h3>{getTeamDetailName(selectedTeam)}</h3>
                           <p>{selectedTeam.manager}</p>
+                          {selectedLeagueId ? (
+                            <Link
+                              className={styles.detailActionLink}
+                              href={`/leagues/${selectedLeagueId}/teams/${buildTeamRouteId(
+                                selectedTeam,
+                              )}`}
+                            >
+                              {messages.teamSeasonLink}
+                            </Link>
+                          ) : null}
                         </div>
                         <div className={styles.detailRank}>
                           <strong>#{selectedTeam.rank}</strong>

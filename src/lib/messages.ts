@@ -76,6 +76,25 @@ export interface DashboardMessages {
   teamDetailsTitle: string;
   teamDetailsDescription: string;
   selectedTeamBadge: string;
+  teamChangesLink: string;
+  teamSeasonLink: string;
+  backToDashboard: string;
+  backToChanges: string;
+  seasonChangesTitle: string;
+  seasonChangesDescription: string;
+  seasonTeamTitle: string;
+  seasonTeamDescription: string;
+  seasonSnapshotsLabel: string;
+  seasonLatestDeltaLabel: string;
+  seasonLatestRaceLabel: string;
+  seasonViewTimeline: string;
+  seasonNoData: string;
+  seasonNoTeamFound: string;
+  seasonDriversIn: string;
+  seasonDriversOut: string;
+  seasonConstructorsIn: string;
+  seasonConstructorsOut: string;
+  seasonNoChanges: string;
   driversLabel: string;
   constructorsLabel: string;
   chipUsageLabel: string;
@@ -195,6 +214,27 @@ export const DASHBOARD_MESSAGES: Record<Locale, DashboardMessages> = {
     teamDetailsDescription:
       "Select a team to inspect its lineup, chip usage, and transfer state.",
     selectedTeamBadge: "Selected team",
+    teamChangesLink: "Team changes",
+    teamSeasonLink: "Open season page",
+    backToDashboard: "Back to dashboard",
+    backToChanges: "Back to team changes",
+    seasonChangesTitle: "Season team changes",
+    seasonChangesDescription:
+      "Track every fantasy team across the exported race snapshots and jump into a dedicated season history page.",
+    seasonTeamTitle: "Season team history",
+    seasonTeamDescription:
+      "Review lineup, rank, points, chip usage, and transfer changes for this team across the full season timeline.",
+    seasonSnapshotsLabel: "Race snapshots",
+    seasonLatestDeltaLabel: "Latest delta",
+    seasonLatestRaceLabel: "Latest race",
+    seasonViewTimeline: "Race timeline",
+    seasonNoData: "No season snapshots are available for this league yet.",
+    seasonNoTeamFound: "This team could not be matched to a season history page.",
+    seasonDriversIn: "Drivers in",
+    seasonDriversOut: "Drivers out",
+    seasonConstructorsIn: "Constructors in",
+    seasonConstructorsOut: "Constructors out",
+    seasonNoChanges: "No roster changes for this race.",
     driversLabel: "Drivers",
     constructorsLabel: "Constructors",
     chipUsageLabel: "Chip usage",
@@ -315,6 +355,27 @@ export const DASHBOARD_MESSAGES: Record<Locale, DashboardMessages> = {
     teamDetailsTitle: "队伍详情",
     teamDetailsDescription: "选择一支队伍以查看其阵容、chip 使用情况和换人状态。",
     selectedTeamBadge: "当前选中队伍",
+    teamChangesLink: "队伍变化",
+    teamSeasonLink: "打开赛季页面",
+    backToDashboard: "返回仪表盘",
+    backToChanges: "返回队伍变化页",
+    seasonChangesTitle: "赛季队伍变化",
+    seasonChangesDescription:
+      "追踪每支 fantasy 队伍在各个导出比赛快照中的变化，并跳转到专属的赛季历史页面。",
+    seasonTeamTitle: "赛季队伍历史",
+    seasonTeamDescription:
+      "查看这支队伍在整个赛季时间线中的阵容、排名、积分、chip 使用和换人变化。",
+    seasonSnapshotsLabel: "比赛快照",
+    seasonLatestDeltaLabel: "最近变化",
+    seasonLatestRaceLabel: "最近比赛",
+    seasonViewTimeline: "比赛时间线",
+    seasonNoData: "这个联盟目前还没有可用的赛季快照。",
+    seasonNoTeamFound: "无法为这支队伍匹配到赛季历史页面。",
+    seasonDriversIn: "新增车手",
+    seasonDriversOut: "移出车手",
+    seasonConstructorsIn: "新增车队",
+    seasonConstructorsOut: "移出车队",
+    seasonNoChanges: "这一站没有阵容变化。",
     driversLabel: "车手",
     constructorsLabel: "车队",
     chipUsageLabel: "Chip 使用",

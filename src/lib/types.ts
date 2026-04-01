@@ -62,11 +62,27 @@ export interface TeamTransfer {
   penaltyPoints: number | null;
 }
 
+export interface SelectedRaceData {
+  race?: string | null;
+  totalPoints?: number | null;
+  chip?: string | null;
+  chips?: TeamChips;
+  x3BoostDriver?: string | null;
+  excessTransfers?: number | null;
+  transfer?: TeamTransfer;
+  drivers?: DriverPick[];
+  constructors?: ConstructorPick[];
+}
+
 export interface TeamEntry {
   rank: number;
   teamName: string;
   manager: string;
   detailTeamName?: string;
+  socialId?: number | null;
+  managerTeamNumber?: number | null;
+  managerTeamCount?: number | null;
+  managerTeamLabel?: string | null;
   lineup: TeamLineup;
   totalPoints?: number | null;
   costCap?: string | null;
@@ -79,6 +95,7 @@ export interface TeamEntry {
   transfer: TeamTransfer;
   drivers: DriverPick[];
   constructors: ConstructorPick[];
+  selectedRace?: SelectedRaceData;
 }
 
 export interface LeagueViewData {
