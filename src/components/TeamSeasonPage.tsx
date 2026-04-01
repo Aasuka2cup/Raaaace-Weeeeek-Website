@@ -4,10 +4,18 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import styles from "@/components/SeasonPages.module.css";
+import type { DashboardMessages, Locale } from "@/lib/messages";
 import { findTeamHistory, loadLeagueSeasonDataset } from "@/lib/season-data";
 import { useSitePreferences } from "@/lib/site-preferences";
 
-function formatDateTime(value: string, locale: "en" | "zh"): string {
+interface TrendPoint {
+  index: number;
+  label: string;
+  raceName: string;
+  value: number | null;
+}
+
+function formatDateTime(value: string, locale: Locale): string {
   return new Intl.DateTimeFormat(locale === "zh" ? "zh-CN" : "en", {
     month: "short",
     day: "numeric",
@@ -34,6 +42,160 @@ function getChipLabel(chipsUsed: string[], turboDriver: string | null | undefine
   }
 
   return "--";
+}
+
+function getRaceName(raceName: string | null | undefined, fallback: string): string {
+  return raceName ?? fallback;
+}
+
+function buildTrendPoints(
+  entries: NonNullable<ReturnType<typeof findTeamHistory>>["entries"],
+  getValue: (value: (typeof entries)[number]) => number | null,
+  messages: DashboardMessages,
+): TrendPoint[] {
+  const total = entries.length;
+
+  return entries.map((entry, index) => ({
+    index,
+    label: messages.seasonRaceOrder(index + 1, total),
+    raceName: getRaceName(entry.targetRace, entry.viewLabel),
+    value: getValue(entry),
+  }));
+}
+
+function TrendChart({
+  title,
+  description,
+  points,
+  invertScale = false,
+  messages,
+}: {
+  title: string;
+  description: string;
+  points: TrendPoint[];
+  invertScale?: boolean;
+  messages: DashboardMessages;
+}) {
+  const validPoints = points.filter(
+    (point): point is TrendPoint & { value: number } => typeof point.value === "number",
+  );
+
+  if (validPoints.length < 2) {
+    return (
+      <article className={styles.timelineCard}>
+        <span>{title}</span>
+        <strong>{messages.seasonTrendNoData}</strong>
+        <p>{description}</p>
+      </article>
+    );
+  }
+
+  const width = 640;
+  const height = 240;
+  const paddingTop = 20;
+  const paddingRight = 18;
+  const paddingBottom = 40;
+  const paddingLeft = 42;
+  const innerWidth = width - paddingLeft - paddingRight;
+  const innerHeight = height - paddingTop - paddingBottom;
+  const minValue = Math.min(...validPoints.map((point) => point.value));
+  const maxValue = Math.max(...validPoints.map((point) => point.value));
+  const valueRange = Math.max(maxValue - minValue, 1);
+  const pointCount = Math.max(points.length - 1, 1);
+
+  const chartPoints = validPoints.map((point) => {
+    const x = paddingLeft + (innerWidth * point.index) / pointCount;
+    const y = invertScale
+      ? paddingTop + ((point.value - minValue) / valueRange) * innerHeight
+      : paddingTop + (1 - (point.value - minValue) / valueRange) * innerHeight;
+
+    return {
+      ...point,
+      x,
+      y,
+    };
+  });
+
+  const path = chartPoints
+    .map((point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`)
+    .join(" ");
+
+  return (
+    <article className={styles.chartCard}>
+      <div className={styles.chartHeader}>
+        <div>
+          <span>{title}</span>
+          <strong>{validPoints[validPoints.length - 1].value}</strong>
+        </div>
+        <p>{description}</p>
+      </div>
+
+      <div className={styles.chartFrame}>
+        <svg
+          className={styles.chartSvg}
+          viewBox={`0 0 ${width} ${height}`}
+          role="img"
+          aria-label={title}
+        >
+          <line
+            className={styles.chartAxis}
+            x1={paddingLeft}
+            y1={paddingTop}
+            x2={paddingLeft}
+            y2={height - paddingBottom}
+          />
+          <line
+            className={styles.chartAxis}
+            x1={paddingLeft}
+            y1={height - paddingBottom}
+            x2={width - paddingRight}
+            y2={height - paddingBottom}
+          />
+          <path className={styles.chartPath} d={path} />
+          {chartPoints.map((point) => (
+            <g key={point.label}>
+              <circle className={styles.chartPoint} cx={point.x} cy={point.y} r="5" />
+              <text className={styles.chartValue} x={point.x} y={point.y - 10}>
+                {point.value}
+              </text>
+            </g>
+          ))}
+          {points.map((point) => {
+            const x = paddingLeft + (innerWidth * point.index) / pointCount;
+
+            return (
+              <text
+                key={`${point.label}-${point.raceName}`}
+                className={styles.chartTick}
+                x={x}
+                y={height - 14}
+              >
+                {point.index + 1}
+              </text>
+            );
+          })}
+          <text className={styles.chartScaleLabel} x={paddingLeft - 8} y={paddingTop + 4}>
+            {invertScale ? minValue : maxValue}
+          </text>
+          <text
+            className={styles.chartScaleLabel}
+            x={paddingLeft - 8}
+            y={height - paddingBottom + 4}
+          >
+            {invertScale ? maxValue : minValue}
+          </text>
+        </svg>
+      </div>
+
+      <div className={styles.chartLegend}>
+        {points.map((point) => (
+          <span className={styles.changeChip} key={`${title}-${point.label}`}>
+            {point.label}: {point.raceName}
+          </span>
+        ))}
+      </div>
+    </article>
+  );
 }
 
 export function TeamSeasonPage({
@@ -75,6 +237,17 @@ export function TeamSeasonPage({
     [dataset, teamId],
   );
   const latestEntry = history?.entries[history.entries.length - 1] ?? null;
+  const pointsTrend = useMemo(
+    () =>
+      history
+        ? buildTrendPoints(history.entries, (entry) => entry.totalPoints, messages)
+        : [],
+    [history, messages],
+  );
+  const rankTrend = useMemo(
+    () => (history ? buildTrendPoints(history.entries, (entry) => entry.rank, messages) : []),
+    [history, messages],
+  );
 
   return (
     <main className={styles.page}>
@@ -205,14 +378,30 @@ export function TeamSeasonPage({
               </article>
             </section>
 
+            <section className={styles.chartGrid}>
+              <TrendChart
+                title={messages.seasonPointsTrendTitle}
+                description={messages.seasonPointsTrendDescription}
+                points={pointsTrend}
+                messages={messages}
+              />
+              <TrendChart
+                title={messages.seasonRankTrendTitle}
+                description={messages.seasonRankTrendDescription}
+                points={rankTrend}
+                invertScale
+                messages={messages}
+              />
+            </section>
+
             <section>
               <div className={styles.timelineList}>
-                {history.entries.map((entry) => (
+                {history.entries.map((entry, index) => (
                   <article className={styles.timelineCard} key={entry.viewKey}>
                     <div className={styles.metaRow}>
                       <div className={styles.stateCard}>
-                        <span>{messages.seasonLatestRaceLabel}</span>
-                        <strong>{entry.targetRace ?? entry.viewLabel}</strong>
+                        <span>{messages.seasonRaceOrder(index + 1, history.entries.length)}</span>
+                        <strong>{getRaceName(entry.targetRace, entry.viewLabel)}</strong>
                         <p>{formatDateTime(entry.scrapedAt, locale)}</p>
                       </div>
                       <div className={styles.stateCard}>

@@ -70,7 +70,7 @@ function slugify(value: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-function getTeamSlotLabel(team: TeamEntry): string | null {
+export function getTeamSlotLabel(team: TeamEntry): string | null {
   if (team.managerTeamLabel && /^T\d+$/i.test(team.managerTeamLabel)) {
     return team.managerTeamLabel.toUpperCase();
   }

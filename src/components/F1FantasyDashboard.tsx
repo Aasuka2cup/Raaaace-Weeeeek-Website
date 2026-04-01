@@ -18,7 +18,7 @@ import {
   type Locale,
   type SectionId,
 } from "@/lib/messages";
-import { buildTeamRouteId } from "@/lib/season-data";
+import { buildTeamRouteId, getTeamSlotLabel } from "@/lib/season-data";
 import { useSitePreferences } from "@/lib/site-preferences";
 import type {
   ExportedLeague,
@@ -83,15 +83,7 @@ function getTeamDetailName(team: TeamEntry): string {
 }
 
 function getTeamNumber(team: TeamEntry): string {
-  const candidates = [team.detailTeamName, team.teamName];
-
-  for (const candidate of candidates) {
-    if (candidate && /^T\d+$/i.test(candidate.trim())) {
-      return candidate.trim().toUpperCase();
-    }
-  }
-
-  return "";
+  return getTeamSlotLabel(team) ?? "";
 }
 
 function getTopOwned(entries: OwnershipEntry[]): OwnershipEntry | null {

@@ -87,7 +87,14 @@ export interface DashboardMessages {
   seasonSnapshotsLabel: string;
   seasonLatestDeltaLabel: string;
   seasonLatestRaceLabel: string;
+  seasonRaceLabel: string;
+  seasonRaceOrder: (current: number, total: number) => string;
   seasonViewTimeline: string;
+  seasonPointsTrendTitle: string;
+  seasonPointsTrendDescription: string;
+  seasonRankTrendTitle: string;
+  seasonRankTrendDescription: string;
+  seasonTrendNoData: string;
   seasonNoData: string;
   seasonNoTeamFound: string;
   seasonDriversIn: string;
@@ -227,7 +234,14 @@ export const DASHBOARD_MESSAGES: Record<Locale, DashboardMessages> = {
     seasonSnapshotsLabel: "Race snapshots",
     seasonLatestDeltaLabel: "Latest delta",
     seasonLatestRaceLabel: "Latest race",
+    seasonRaceLabel: "Race",
+    seasonRaceOrder: (current, total) => `Race ${current} of ${total}`,
     seasonViewTimeline: "Race timeline",
+    seasonPointsTrendTitle: "Points trend",
+    seasonPointsTrendDescription: "Total points by race snapshot across the season timeline.",
+    seasonRankTrendTitle: "Rank trend",
+    seasonRankTrendDescription: "League rank by race snapshot, with rank 1 displayed at the top.",
+    seasonTrendNoData: "Need at least two race snapshots to draw a trend line.",
     seasonNoData: "No season snapshots are available for this league yet.",
     seasonNoTeamFound: "This team could not be matched to a season history page.",
     seasonDriversIn: "Drivers in",
@@ -368,7 +382,14 @@ export const DASHBOARD_MESSAGES: Record<Locale, DashboardMessages> = {
     seasonSnapshotsLabel: "比赛快照",
     seasonLatestDeltaLabel: "最近变化",
     seasonLatestRaceLabel: "最近比赛",
+    seasonRaceLabel: "比赛",
+    seasonRaceOrder: (current, total) => `第 ${current} / ${total} 场比赛`,
     seasonViewTimeline: "比赛时间线",
+    seasonPointsTrendTitle: "积分走势",
+    seasonPointsTrendDescription: "按比赛快照展示整个赛季时间线中的总积分变化。",
+    seasonRankTrendTitle: "排名走势",
+    seasonRankTrendDescription: "按比赛快照展示联盟排名变化，排名 1 位于最上方。",
+    seasonTrendNoData: "至少需要两个比赛快照才能绘制趋势线。",
     seasonNoData: "这个联盟目前还没有可用的赛季快照。",
     seasonNoTeamFound: "无法为这支队伍匹配到赛季历史页面。",
     seasonDriversIn: "新增车手",
