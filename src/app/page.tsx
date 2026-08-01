@@ -4,6 +4,7 @@ import { useSitePreferences } from "@/lib/site-preferences";
 import { SITE_MESSAGES } from "@/lib/site-messages";
 import { Card } from "@/components/ui/Card";
 import { WireframeSphere } from "@/components/ui/WireframeSphere";
+import { glowSansHeadline } from "@/lib/fonts";
 
 import styles from "./page.module.css";
 
@@ -13,13 +14,23 @@ export default function Home() {
 
   return (
     <main className={styles.page}>
-      <section className={styles.hero}>
+      <section className={`${styles.hero} ${glowSansHeadline.variable}`}>
         <div className={styles.grain} aria-hidden="true" />
         <div className={styles.wireframeWrap}>
           <WireframeSphere size={760} />
         </div>
         <span className={styles.eyebrow}>{messages.homeEyebrow}</span>
-        <h1 className={styles.title}>{messages.homeTitle}</h1>
+        <h1 className={`${styles.title} ${locale === "zh" ? styles.titleZh : ""}`}>
+          {locale === "zh" ? (
+            <>
+              {messages.homeTitle.slice(0, 4)}
+              <br />
+              {messages.homeTitle.slice(4)}
+            </>
+          ) : (
+            messages.homeTitle
+          )}
+        </h1>
         <p className={styles.subtitle}>{messages.homeSubtitle}</p>
       </section>
 

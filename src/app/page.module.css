@@ -59,6 +59,14 @@
   text-wrap: balance;
 }
 
+/* Geist Sans has no CJK glyphs, so the zh homeTitle was silently falling
+   back to the system's default sans-serif. */
+.titleZh {
+  font-family: var(--font-glow-sans-headline), var(--font-geist-sans), sans-serif;
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
 .subtitle {
   position: relative;
   max-width: 40ch;

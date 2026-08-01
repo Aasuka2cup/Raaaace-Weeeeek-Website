@@ -17,3 +17,14 @@ export const notoSansTCHeadline = localFont({
   weight: "700",
   display: "swap",
 });
+
+// Glow Sans SC Extended Bold (SIL OFL, welai/glow-sans) — subsetted to just
+// the glyphs in "欢迎来到鸟舍。" (the zh homeTitle). Re-subset from the
+// GlowSansSC-Extended-Bold.otf release file with a wider glyph set if this
+// font is reused for other Chinese copy later.
+export const glowSansHeadline = localFont({
+  src: "../fonts/GlowSansSCExtended-Bold-headline-subset.woff2",
+  variable: "--font-glow-sans-headline",
+  weight: "700",
+  display: "swap",
+});
