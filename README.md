@@ -31,6 +31,7 @@ Adding a future section is just: a new folder under `src/app/`, a matching conte
 - `src/app/layout.tsx` wraps every page in `SitePreferencesProvider` (`src/lib/site-preferences.tsx`) plus a global `SiteHeader` / `SiteFooter` (`src/components/ui/`) — theme and locale are one piece of state shared across all sections, not per-page.
 - Shared UI primitives (`src/components/ui/`): `Card` (home), `SectionHero` (blog), `WireframeSphere` + `FlyingParrot` (animated hero pieces), `AlbumCover` (podcast) — new sections can draw from the same building blocks rather than reinventing them.
 - Site-wide chrome copy (nav, footer, home/podcast/blog hero text) lives in `src/lib/site-messages.ts`, separate from the F1-Fantasy-specific dictionary in `src/lib/messages.ts`.
+- Favicon (`src/app/favicon.ico` + `icon.png` + `apple-icon.png`, Next.js App Router's icon file convention — auto-wired into `<head>`, no metadata config needed) is a cropped/composited version of `assets/avatar.png`: tight head-and-shoulders crop (a full-body crop read as a thin unrecognizable sliver at 16px), padded square, on the site's own navy (`#14182a`) rather than left transparent, since a transparent background risked the parrot's light-colored head disappearing against a white browser tab.
 
 ## F1 Fantasy section
 
