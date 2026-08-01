@@ -1,0 +1,35 @@
+.cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+}
+
+.sm {
+  border-radius: 6px;
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(226, 84, 43, 0.35), transparent 55%),
+    linear-gradient(150deg, var(--background) 0%, color-mix(in srgb, var(--background) 60%, var(--accent-text) 15%) 100%);
+}
+
+.code {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-weight: 800;
+  font-size: 3rem;
+  color: var(--accent-text);
+  opacity: 0.85;
+  letter-spacing: -0.02em;
+}
+
+.sm .code {
+  font-size: 1.6rem;
+}

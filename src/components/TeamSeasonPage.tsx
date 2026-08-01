@@ -254,10 +254,10 @@ export function TeamSeasonPage({
       <div className={styles.container}>
         <div className={styles.utilityBar}>
           <div className={styles.utilityLinks}>
-            <Link className={styles.utilityLink} href="/">
+            <Link className={styles.utilityLink} href="/f1-fantasy">
               {messages.backToDashboard}
             </Link>
-            <Link className={styles.utilityLink} href={`/leagues/${leagueId}/changes`}>
+            <Link className={styles.utilityLink} href={`/f1-fantasy/leagues/${leagueId}/changes`}>
               {messages.backToChanges}
             </Link>
             <a

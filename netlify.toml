@@ -9,3 +9,13 @@
   for = "/data/league-data/*"
   [headers.values]
     Cache-Control = "public, max-age=300"
+
+# f1fantasy.aasuka.com used to be the whole site (F1 Fantasy dashboard at
+# its root); that content now lives at aasuka.com/f1-fantasy, so send the
+# old domain there permanently rather than leaving it as a dead/duplicate
+# site once it's added as a domain alias on this Netlify site.
+[[redirects]]
+  from = "https://f1fantasy.aasuka.com/*"
+  to = "https://aasuka.com/f1-fantasy/:splat"
+  status = 301
+  force = true

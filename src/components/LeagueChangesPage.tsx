@@ -62,7 +62,7 @@ export function LeagueChangesPage({ leagueId }: { leagueId: string }) {
       <div className={styles.container}>
         <div className={styles.utilityBar}>
           <div className={styles.utilityLinks}>
-            <Link className={styles.utilityLink} href="/">
+            <Link className={styles.utilityLink} href="/f1-fantasy">
               {messages.backToDashboard}
             </Link>
             <a
@@ -211,7 +211,7 @@ export function LeagueChangesPage({ leagueId }: { leagueId: string }) {
                           <td>
                             <Link
                               className={styles.actionLink}
-                              href={`/leagues/${leagueId}/teams/${history.identity.routeId}`}
+                              href={`/f1-fantasy/leagues/${leagueId}/teams/${history.identity.routeId}`}
                             >
                               {messages.teamSeasonLink}
                             </Link>

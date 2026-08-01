@@ -588,7 +588,7 @@ export function F1FantasyDashboard() {
           {selectedLeagueId ? (
             <Link
               className={styles.utilityLink}
-              href={`/leagues/${selectedLeagueId}/changes`}
+              href={`/f1-fantasy/leagues/${selectedLeagueId}/changes`}
             >
               {messages.teamChangesLink}
             </Link>
@@ -640,7 +640,7 @@ export function F1FantasyDashboard() {
       <main className={styles.page}>
         <div className={styles.utilityBar}>
           {selectedLeagueId ? (
-            <Link className={styles.utilityLink} href={`/leagues/${selectedLeagueId}/changes`}>
+            <Link className={styles.utilityLink} href={`/f1-fantasy/leagues/${selectedLeagueId}/changes`}>
               {messages.teamChangesLink}
             </Link>
           ) : null}
@@ -895,7 +895,7 @@ export function F1FantasyDashboard() {
                           {selectedLeagueId ? (
                             <Link
                               className={styles.detailActionLink}
-                              href={`/leagues/${selectedLeagueId}/teams/${buildTeamRouteId(
+                              href={`/f1-fantasy/leagues/${selectedLeagueId}/teams/${buildTeamRouteId(
                                 selectedTeam,
                               )}`}
                             >

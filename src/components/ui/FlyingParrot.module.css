@@ -1,0 +1,97 @@
+.track {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.flyer {
+  position: absolute;
+  top: 18%;
+  left: 100%;
+}
+
+.bobber {
+  animation: bob 0.9s ease-in-out infinite;
+}
+
+.stage {
+  position: relative;
+  width: 78px;
+  height: 98px;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.28));
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Real two-frame sprite swap — a hard cut (steps), not a crossfade, so it
+   reads as an actual wingbeat rather than a dissolve. No transform/rotate
+   is applied to the artwork itself, only to the flight path (translateY
+   bob + translateX below). */
+.frameUp {
+  animation: show-up 0.5s steps(1) infinite;
+}
+
+.frameDown {
+  animation: show-down 0.5s steps(1) infinite;
+}
+
+@keyframes show-up {
+  0%,
+  49.9% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes show-down {
+  0%,
+  49.9% {
+    opacity: 0;
+  }
+  50%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flyer {
+    left: 50%;
+    top: 16px;
+    transform: translateX(-50%);
+  }
+
+  .bobber,
+  .frameUp,
+  .frameDown {
+    animation: none;
+  }
+
+  .frameDown {
+    opacity: 0;
+  }
+}

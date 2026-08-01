@@ -1,0 +1,136 @@
+.page {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+}
+
+.intro {
+  position: relative;
+  overflow: hidden;
+  padding: 56px 40px;
+  margin: 0 0 40px;
+  border-radius: 24px;
+  background: var(--background);
+  font-family: var(--font-serif);
+}
+
+.eyebrow {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--eyebrow-bg);
+  color: var(--accent-text);
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.title {
+  position: relative;
+  font-family: var(--font-raster-forge), var(--font-geist-sans), sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1.15;
+  font-size: clamp(2.1rem, 4.6vw, 3.1rem);
+  color: #dfe3ea;
+  text-shadow:
+    0 0 3px #dfe3ea,
+    0 0 9px #aeb5c4,
+    0 0 20px #7d8494,
+    0 0 40px #565c6b,
+    0 0 4px #ffffff;
+  margin-bottom: 16px;
+}
+
+/* A light glow reads as neon only against a dark ground — on the light
+   theme it just washes out, so swap to a solid gunmetal fill with a soft
+   emboss instead of trying to "glow" against a light background. */
+:global(html[data-theme="light"]) .title {
+  color: #454d5e;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.65),
+    0 2px 8px rgba(32, 38, 63, 0.22);
+}
+
+/* Raster Forge has no CJK glyphs, so the zh podcastName was silently
+   falling back to the system's default sans-serif — swap to a real
+   (subsetted) Chinese face instead. */
+.titleZh {
+  font-family: var(--font-noto-sans-tc-headline), var(--font-geist-sans), sans-serif;
+  text-transform: none;
+  /* `.title` and `.titleZh` both target the same element, so this fully
+     replaces (not multiplies) `.title`'s font-size — write out the scaled
+     clamp directly rather than an em value, which would resolve against
+     the inherited parent size instead of `.title`'s own. */
+  font-size: clamp(2.35rem, 5.15vw, 3.47rem);
+  letter-spacing: 0.2em;
+  /* Noto Sans TC's glyphs sit in a roughly square box by default — squash
+     + stretch to read flatter and wider, closer to Raster Forge's own
+     proportions, instead of the tall/square default CJK look. */
+  transform: scaleX(1.18) scaleY(0.88);
+  transform-origin: left top;
+}
+
+.subtitle {
+  position: relative;
+  max-width: 56ch;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.sectionLabel {
+  text-transform: uppercase;
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.latest {
+  margin-bottom: 48px;
+}
+
+.latestCard {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  box-shadow: var(--card-shadow);
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.latestCard:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.latestCoverWrap {
+  width: 84px;
+  flex-shrink: 0;
+}
+
+.latestInfo {
+  min-width: 0;
+}
+
+.latestTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--foreground);
+  overflow-wrap: break-word;
+}
+
+.latestMeta {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}

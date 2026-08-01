@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+import { SitePreferencesProvider } from "@/lib/site-preferences";
+import { SiteHeader } from "@/components/ui/SiteHeader";
+import { SiteFooter } from "@/components/ui/SiteFooter";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -13,9 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "F1 Fantasy Analysis Dashboard",
+  title: "Aasuka",
   description:
-    "Aasuka's F1 Fantasy league dashboard for standings, ownership trends, and prediction insights.",
+    "Aasuka's personal site — F1 Fantasy league analysis, podcast, and blog.",
 };
 
 export default function RootLayout({
@@ -30,7 +34,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
       suppressHydrationWarning
     >
-      <body>{children}</body>
+      <body>
+        <SitePreferencesProvider>
+          <SiteHeader />
+          {children}
+          <SiteFooter />
+        </SitePreferencesProvider>
+      </body>
     </html>
   );
 }

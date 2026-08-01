@@ -1,0 +1,122 @@
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+}
+
+.backLink {
+  display: inline-block;
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin-bottom: 32px;
+}
+
+.backLink:hover {
+  color: var(--foreground);
+}
+
+.header {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.coverWrap {
+  width: 160px;
+  flex-shrink: 0;
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--eyebrow-bg);
+  color: var(--accent-text);
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+  color: var(--foreground);
+  margin-bottom: 10px;
+}
+
+.description {
+  font-family: var(--font-serif);
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.count {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.episodeList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  list-style: none;
+}
+
+.episodeCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.episodeCard:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.episodeCoverWrap {
+  width: 68px;
+  flex-shrink: 0;
+}
+
+.episodeTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.episodeMeta {
+  margin-top: 4px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 0.95rem;
+  padding: 32px;
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .coverWrap {
+    width: 120px;
+  }
+}

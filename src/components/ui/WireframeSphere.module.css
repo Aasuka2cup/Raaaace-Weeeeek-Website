@@ -1,0 +1,4 @@
+.canvas {
+  display: block;
+  pointer-events: none;
+}
