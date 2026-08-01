@@ -45,6 +45,10 @@ export interface SiteMessages {
   blogEmptyState: string;
   blogReadMore: string;
   blogBackToList: string;
+  blogTagLabel: string;
+  blogSeriesLabel: string;
+  blogPostCount: (count: number) => string;
+  blogEmptyArchive: string;
 }
 
 export const SITE_MESSAGES: Record<Locale, SiteMessages> = {
@@ -96,6 +100,10 @@ export const SITE_MESSAGES: Record<Locale, SiteMessages> = {
     blogEmptyState: "No posts published yet — check back soon.",
     blogReadMore: "Read post",
     blogBackToList: "Back to all posts",
+    blogTagLabel: "Tag",
+    blogSeriesLabel: "Series",
+    blogPostCount: (count) => `${count} post${count === 1 ? "" : "s"}`,
+    blogEmptyArchive: "Nothing here yet.",
   },
   zh: {
     siteName: "Aasuka",
@@ -143,5 +151,9 @@ export const SITE_MESSAGES: Record<Locale, SiteMessages> = {
     blogEmptyState: "暂无发布的文章，敬请期待。",
     blogReadMore: "阅读全文",
     blogBackToList: "返回博客列表",
+    blogTagLabel: "标签",
+    blogSeriesLabel: "系列",
+    blogPostCount: (count) => `${count} 篇文章`,
+    blogEmptyArchive: "暂无内容。",
   },
 };

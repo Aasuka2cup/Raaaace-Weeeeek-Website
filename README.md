@@ -84,7 +84,9 @@ Adding a new series later = add an entry to `PODCAST_CATEGORIES` with its code; 
 
 ## Blog section
 
-Posts are `.mdx` files in `src/content/blog/`, with frontmatter (`title`, `date`, `summary`, `tags`). `src/lib/blog.ts` reads and parses them via `gray-matter`; `src/app/blog/[slug]/page.tsx` renders them via `next-mdx-remote/rsc`'s `compileMDX`, statically at build time. Add a post by dropping a new `.mdx` file in that folder — no code changes needed.
+Posts are `.mdx` files in `src/content/blog/`, with frontmatter (`title`, `date`, `summary`, `tags`, optional `series`). `src/lib/blog.ts` reads and parses them via `gray-matter`; `src/app/blog/[slug]/page.tsx` renders them via `next-mdx-remote/rsc`'s `compileMDX`, statically at build time. Add a post by dropping a new `.mdx` file in that folder — no code changes needed.
+
+**Tags and series**: both are freeform frontmatter (`tags: ["meta"]`, `series: "Some Series"`) rather than a curated registry like `PODCAST_CATEGORIES` — no code changes needed to introduce a new tag or series, just write it into a post's frontmatter. `BlogListView` cards and `BlogPostView` both render clickable pills linking to `/blog/tag/[slug]` and `/blog/series/[slug]` (`BlogArchiveView.tsx`, shared between both), built from `getAllTags`/`getPostsByTagSlug`/`getAllSeries`/`getPostsBySeriesSlug` in `blog.ts`. `slugify()` lives in its own `src/lib/slugify.ts` rather than `blog.ts` — `blog.ts` reads the filesystem (`node:fs`/`node:path`), and importing anything from it into a `"use client"` component (which the tag/series pills need to be, to read `useSitePreferences`) broke the Turbopack client bundle ("chunking context does not support external modules"), even for something as filesystem-unrelated as a slugify function, since bundlers can't statically split a single module's exports into server-only vs. client-safe halves. Both dynamic archive routes fall back to a `_none` placeholder param when their underlying list is empty (currently true for `series` — no post uses it yet), because `output: "export"` hard-errors ("missing generateStaticParams()") on a dynamic route whose `generateStaticParams()` resolves to zero entries; the fallback self-heals the moment real content exists, no code changes needed.
 
 ## Visual design
 
@@ -143,6 +145,7 @@ Static export output goes to `out/` (`output: "export"` in `next.config.ts`).
 | 2026-07-31 | _(pending)_ | Restyled the podcast headline with Raster Forge (CC0 pixel font, `next/font/local`) and a gunmetal neon glow on dark theme / solid emboss on light theme; fixed the album carousel's center-scaled card getting its top clipped by `.track`'s implicit `overflow-y: auto` |
 | 2026-07-31 | _(pending)_ | Gave the zh headline its own real font (Noto Sans TC Bold, subsetted) instead of the unstyled system CJK fallback; switched `podcastName` to Traditional Chinese to pair with it; squashed/widened the glyphs to read closer to Raster Forge's flat proportions |
 | 2026-07-31 | _(pending)_ | Gave the home page's zh headline its own font too (Glow Sans SC Extended Bold, subsetted) instead of system CJK fallback — chose a real shipped width over chasing a custom-tuned instance that would've needed Glow Sans's multi-hour offline build pipeline |
+| 2026-07-31 | _(pending)_ | Added a series/tags system to the blog: freeform frontmatter (no curated registry), `/blog/tag/[slug]` and `/blog/series/[slug]` archive pages, clickable pills on post cards and post pages; fixed a static-export build break from an empty `generateStaticParams()` and from importing a filesystem-touching module into a client component |
 
 ## Open items / notes
 

@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 
 import { useSitePreferences } from "@/lib/site-preferences";
 import { SITE_MESSAGES } from "@/lib/site-messages";
+import { slugify } from "@/lib/slugify";
 import type { BlogFrontmatter } from "@/lib/blog";
 
 import styles from "./BlogPostView.module.css";
@@ -28,13 +29,18 @@ export function BlogPostView({
       <article>
         <header className={styles.header}>
           <p className={styles.meta}>{frontmatter.date}</p>
+          {frontmatter.series ? (
+            <Link href={`/blog/series/${slugify(frontmatter.series)}`} className={styles.seriesBadge}>
+              {messages.blogSeriesLabel}: {frontmatter.series}
+            </Link>
+          ) : null}
           <h1 className={styles.title}>{frontmatter.title}</h1>
           {frontmatter.tags && frontmatter.tags.length > 0 ? (
             <div className={styles.tags}>
               {frontmatter.tags.map((tag) => (
-                <span key={tag} className={styles.tag}>
+                <Link key={tag} href={`/blog/tag/${slugify(tag)}`} className={styles.tag}>
                   {tag}
-                </span>
+                </Link>
               ))}
             </div>
           ) : null}

@@ -24,6 +24,24 @@
   font-size: 0.85rem;
 }
 
+.seriesBadge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: background-color 150ms ease;
+}
+
+.seriesBadge:hover {
+  background: var(--accent-card);
+}
+
 .title {
   font-size: clamp(1.7rem, 4vw, 2.3rem);
   font-weight: 700;
@@ -34,6 +52,7 @@
 
 .tags {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 14px;
 }
@@ -46,6 +65,12 @@
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.tag:hover {
+  background: var(--surface-soft);
+  color: var(--foreground);
 }
 
 .content {
