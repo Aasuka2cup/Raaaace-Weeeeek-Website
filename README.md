@@ -33,6 +33,8 @@ Adding a future section is just: a new folder under `src/app/`, a matching conte
 - Site-wide chrome copy (nav, footer, home/podcast/blog hero text) lives in `src/lib/site-messages.ts`, separate from the F1-Fantasy-specific dictionary in `src/lib/messages.ts`.
 - Favicon (`src/app/favicon.ico` + `icon.png` + `apple-icon.png`, Next.js App Router's icon file convention — auto-wired into `<head>`, no metadata config needed) is a cropped/composited version of `assets/avatar.png`: tight head-and-shoulders crop (a full-body crop read as a thin unrecognizable sliver at 16px), padded square, on the site's own navy (`#14182a`) rather than left transparent, since a transparent background risked the parrot's light-colored head disappearing against a white browser tab.
 
+**Search** (`SearchOverlay.tsx` in `SiteHeader`, opens on click or Cmd/Ctrl+K): client-side, no backend — `src/app/search-index.json/route.ts` is a Route Handler that combines `getAllPosts()` (blog) and `loadPodcastChannel()` (podcast episodes) into one JSON array at **build time**; `output: "export"` needs `export const dynamic = "force-static"` on it, otherwise the build fails ("not configured on route ... with output: export"). The overlay fetches that static `/search-index.json` lazily on first open (not on every page load) and searches it client-side with `fuse.js`, fuzzy-matching title/description/tags. Since the index is only ever refreshed on a rebuild/redeploy, a same-day new episode or post won't show up in search until the next deploy — matching how the rest of the site's content (RSS feed, MDX posts) already only updates on build.
+
 ## F1 Fantasy section
 
 Reads pre-generated JSON exported by a companion "strategist" scraper repo — not fetched live from F1 Fantasy.
@@ -146,6 +148,7 @@ Static export output goes to `out/` (`output: "export"` in `next.config.ts`).
 | 2026-07-31 | _(pending)_ | Gave the zh headline its own real font (Noto Sans TC Bold, subsetted) instead of the unstyled system CJK fallback; switched `podcastName` to Traditional Chinese to pair with it; squashed/widened the glyphs to read closer to Raster Forge's flat proportions |
 | 2026-07-31 | _(pending)_ | Gave the home page's zh headline its own font too (Glow Sans SC Extended Bold, subsetted) instead of system CJK fallback — chose a real shipped width over chasing a custom-tuned instance that would've needed Glow Sans's multi-hour offline build pipeline |
 | 2026-07-31 | _(pending)_ | Added a series/tags system to the blog: freeform frontmatter (no curated registry), `/blog/tag/[slug]` and `/blog/series/[slug]` archive pages, clickable pills on post cards and post pages; fixed a static-export build break from an empty `generateStaticParams()` and from importing a filesystem-touching module into a client component |
+| 2026-08-03 | _(pending)_ | Added site-wide search (Cmd/Ctrl+K or the header button): a build-time JSON index of blog posts + podcast episodes, fuzzy-searched client-side with `fuse.js`, no backend |
 
 ## Open items / notes
 

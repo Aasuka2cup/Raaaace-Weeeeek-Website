@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { useSitePreferences } from "@/lib/site-preferences";
 import { SITE_MESSAGES } from "@/lib/site-messages";
+import { SearchOverlay } from "@/components/ui/SearchOverlay";
 
 import styles from "./SiteHeader.module.css";
 
@@ -42,6 +43,7 @@ export function SiteHeader() {
         </nav>
 
         <div className={styles.controls}>
+          <SearchOverlay />
           <button
             type="button"
             className={styles.controlButton}

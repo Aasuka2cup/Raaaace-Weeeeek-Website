@@ -13,6 +13,11 @@ export interface SiteMessages {
   footerTagline: string;
   footerRights: string;
 
+  searchLabel: string;
+  searchPlaceholder: string;
+  searchNoResults: string;
+  searchHint: string;
+
   homeEyebrow: string;
   homeTitle: string;
   homeSubtitle: string;
@@ -64,6 +69,11 @@ export const SITE_MESSAGES: Record<Locale, SiteMessages> = {
     langChinese: "中文",
     footerTagline: "To my love, Aasuka.",
     footerRights: "All rights reserved.",
+
+    searchLabel: "Search",
+    searchPlaceholder: "Search posts and episodes…",
+    searchNoResults: "No results found.",
+    searchHint: "Search blog posts and podcast episodes",
 
     homeEyebrow: "aasuka.com",
     homeTitle: "Welcome, Birdman",
@@ -117,6 +127,11 @@ export const SITE_MESSAGES: Record<Locale, SiteMessages> = {
     langChinese: "中文",
     footerTagline: "致我最爱的Aasuka",
     footerRights: "保留所有权利。",
+
+    searchLabel: "搜索",
+    searchPlaceholder: "搜索文章和节目…",
+    searchNoResults: "没有找到结果。",
+    searchHint: "搜索博客文章和播客节目",
 
     homeEyebrow: "aasuka.com",
     homeTitle: "欢迎来到鸟舍。",
